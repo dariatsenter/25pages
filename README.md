@@ -43,23 +43,26 @@ An Example User with Embedded Logs:
 
 ## [Link to Commented First Draft Schema](db.js) 
 
-(___TODO__: create a first draft of your Schemas in db.js and link to it_)
 
 ## Wireframes
 
 (___TODO__: wireframes for all of the pages on your site; they can be as simple as photos of drawings or you can use a tool like Balsamiq, Omnigraffle, etc._)
 
-/list/create - page for creating a new shopping list
+/add-log - a page for submitting a new log
 
-![list create](documentation/list-create.png)
+![Add log](documentation/add-log.png)
 
-/list - page for showing all shopping lists
+/mylogs - page for showing all logs
 
-![list](documentation/list.png)
+![My logs](documentation/mylogs.png)
 
-/list/slug - page for showing specific shopping list
+/mystats - page for showing my stats
 
-![list](documentation/list-slug.png)
+![My Stats](documentation/mystats.png)
+
+/myclub - page for showing the top readers from your 25 pages club
+
+![My Club](documentation/myclub.png)
 
 ## Site map
 
