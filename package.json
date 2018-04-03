@@ -1,0 +1,25 @@
+{
+  "name": "dt1308-final-project",
+  "version": "1.0.0",
+  "description": "25 Pages Club",
+  "main": "app.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nyu-csci-ua-0480-008-spring-2018/dt1308-final-project.git"
+  },
+  "author": "Daria Tsenter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nyu-csci-ua-0480-008-spring-2018/dt1308-final-project/issues"
+  },
+  "homepage": "https://github.com/nyu-csci-ua-0480-008-spring-2018/dt1308-final-project#readme",
+  "devDependencies": {
+    "eslint": "^4.19.1"
+  }
+}
