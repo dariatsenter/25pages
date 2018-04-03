@@ -1,50 +1,42 @@
-The content below is an example project proposal / requirements document. Replace the text below the lines marked "__TODO__" with details specific to your project. Remove the "TODO" lines.
 
-(___TODO__: your project name_)
+# 25 pages club 
 
-# Shoppy Shoperson 
+## 25 a day. No excuses.
 
-## Overview
+25 pages club is a web app that will motivate you to make reading your daily habbit! Let's be honest, we all wish we read more and more regularly.
 
-(___TODO__: a brief one or two paragraph, high-level description of your project_)
+A year ago I was also doing research (aka procrastinating) on how to make myself read more. I found a few articles and YouTube videos that suggested this simple and effective strategy: just to commit to reading 25 pages a day and you'll notice a life-changing difference. [check out this article](https://github.com/nyu-csci-ua-0480-008-spring-2018/dt1308-final-project.git) [and this video](https://www.youtube.com/watch?v=iiNISuM4wl0)
 
-Remembering what to buy at the grocery store is waaaaay too difficult. Also, shopping for groceries when you're hungry leads to regrettable purchases. Sooo... that's where Shoppy Shoperson comes in!
-
-Shoppy Shoperson is a web app that will allow users to keep track of multiple grocery lists. Users can register and login. Once they're logged in, they can create or view their grocery list. For every list that they have, they can add items to the list or cross off items.
-
+Before knowing how to build my own website I would use [Google Sheets](https://docs.google.com/spreadsheets/d/1JTNRAV_t4RNSDDJlno2HkTcegqYsFdJ5Db9VQLbXfgU/edit#gid=0) to try to document those pages and be organized. And I was surprised to find, that there is still no comprehensive reading tracker that would also give you organization and motivation to keep reading 25 a day. So here we are.
 
 ## Data Model
 
-(___TODO__: a description of your application's data and their relationships to each other_) 
+The application will store Users, Logs, Books, Authors.
 
-The application will store Users, Lists and Items
+* a Log is a daily log that includes date, book, author, number of pages and (optinally) comments.
+* each user will have multiples Logs.
 
-* users can have multiple lists (via references)
-* each list can have multiple items (by embedding)
-
-(___TODO__: sample documents_)
-
-An Example User:
+An Example Log:
 
 ```javascript
 {
-  username: "shannonshopper",
-  hash: // a password hash,
-  lists: // an array of references to List documents
+  date: ISODate("2018-02-10T10:50:42.389Z"),
+  book: { title: "Atlas shrugged", author: "Ayn Rand"},
+  pages: 26,
+  comments: "Woah, objectivism is cool!",
 }
 ```
 
-An Example List with Embedded Items:
+An Example User with Embedded Logs:
 
 ```javascript
 {
-  user: // a reference to a User object
-  name: "Breakfast foods",
-  items: [
-    { name: "pancakes", quantity: "9876", checked: false},
-    { name: "ramen", quantity: "2", checked: true},
+  user: // a reference to a User object,
+  password: // a password hash,
+  logs: [
+    { date: ISODate("2018-02-10T10:50:42.389Z"), book: {title: "Atlas shrugged", author: "Ayn Rand"}, pages: 26, comments: "Woah, objectivism is cool!"},
+    { date: ISODate("2018-04-02T07:55:42.389Z"), book: {title: "Denial of Death", author: "Ernest Becker"}, pages: 27, comments: "this. is. hard."},
   ],
-  createdAt: // timestamp
 }
 ```
 
