@@ -63,7 +63,7 @@ An Example User with Embedded Logs:
 
 ![Top Chart](documentation/topchart.png)
 
-## [Site map](documentation/sitemap.pdf)
+## ![Site map](documentation/sitemap.png)
 
 
 ## User Stories or Use Cases
