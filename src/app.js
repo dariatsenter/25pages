@@ -3,6 +3,7 @@
 // Daria Tsenter
 //4/3/18
 require('./db');
+require('dotenv').config()
 const mongoose = require('mongoose');
 const express = require('express');
 const session = require('express-session');
@@ -92,5 +93,5 @@ function success(newUser){
 module.exports = app;
 
 
-//app.listen(3000);
+app.listen(5000);
 console.log("listening");
