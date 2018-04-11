@@ -89,7 +89,8 @@ function success(newUser){
 	auth.login(req.body.username, req.body.password, error, success);
 });
 
-//module.exports = app;
+module.exports = app;
 
-app.listen(3000);
+
+//app.listen(3000);
 console.log("listening");
