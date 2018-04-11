@@ -7,7 +7,8 @@
     "test": "test"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "app.js"
   },
   "repository": {
     "type": "git",
@@ -21,5 +22,13 @@
   "homepage": "https://github.com/nyu-csci-ua-0480-008-spring-2018/dt1308-final-project#readme",
   "devDependencies": {
     "eslint": "^4.19.1"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "express": "^4.16.3",
+    "express-session": "^1.15.6",
+    "handlebars": "^4.0.11",
+    "hbs": "^4.0.1",
+    "mongoose": "^5.0.14"
   }
 }
