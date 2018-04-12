@@ -26,4 +26,4 @@ const Log = new mongoose.Schema({
 module.exports = mongoose.model("Log", Log);
 
 
-mongoose.connect("mongodb://localhost/27017/final");
+mongoose.connect("mongodb://localhost/final");
