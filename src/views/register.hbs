@@ -1,8 +1,10 @@
+<div id="main-container">
 <h2>Register</h2>
 {{#if message}}
 <div class="error">{{ message }}</div>
 {{/if}}
 <form method="POST" action="register">
+<div id="form-container" >
 	<div>
 		<label for="username">Username:</label>
 		<input type="text" name="username" value="">
@@ -12,8 +14,151 @@
 		<input type="email" name="email" value="">
 	</div>
 	<div>
-		<label for="password">Password:</label>
-		<input type="password" name="password" value="">
+		<label for="password">Password:</label> 
+		<input type="password" placeholder="Enter Password" id="password" name="password" value="">
 	</div>
-	<div><input type="submit" value="Register"></div>
+	<div>
+		<label for="password-verify">Verify:</label> 
+      <input type="text" placeholder="Verify Password" name="password-verify" id="password-verify"/>
+    </div>
+
+	<div><input type="submit" id="submit" value="Register"></div>
+
+</div>
+<!-- end of form-container -->
+
+<div class="req-container">
+    <ul>
+      <li id="req-length"><span class="glyphicon glyphicon-remove-circle"> </span>&nbsp6 characters</li>
+      <li id="req-upper"><span class="glyphicon glyphicon-remove-circle"> </span>&nbspone uppercase</li>
+      <li id="req-lower"><span class="glyphicon glyphicon-remove-circle"> </span>&nbspone lowercase</li>
+      <li id="req-digit"><span class="glyphicon glyphicon-remove-circle"> </span>&nbspone digit</li>
+      <li id="req-special"><span class="glyphicon glyphicon-remove-circle"> </span>&nbspone special character</li>
+    </ul>
+  </div>
+
+
 </form>
+
+
+
+</div> <!-- end of main-container -->
+
+<script> $(function() {
+  "user strict";
+
+  /**
+   * start password checking logic
+   */
+  password.init();
+});
+
+/**
+ * Hold functions related to client side password validation
+ */
+var password = (function() {
+  "use strict";
+
+  var minPasswordLength = 6;
+
+  var _hasLowerCase = /[a-z]/;
+  var _hasUpperCase = /[A-Z]/;
+  var _hasDigit = /\d/;
+  // match special characters except space
+  var _hasSpecial = /(_|[^\w\d ])/;
+
+  var password = [];
+  var password2 = [];
+
+  var hasEightCharsListItem,
+    hasUpperCaseListItem,
+    hasLowerCaseListItem,
+    hasSpecialListItem,
+    hasDigitListItem;
+
+  // Enforces that password2 = password, and display an error message if it does not
+  var mustMatch = function() {
+    if (password.val() !== password2.val()) {
+      // show not matching error
+      password2.addClass("invalid");
+      return false;
+    }
+
+    password2.removeClass("invalid");
+    return true;
+  };
+
+  // check validation and adjust classes
+  var checkAndSwitchClasses = function(has, $element) {
+    if (has) {
+      $element
+        .find(".glyphicon")
+        .removeClass("glyphicon-remove-circle")
+        .removeClass("invalid")
+        .addClass("valid")
+        .addClass("glyphicon-ok-circle");
+      return true;
+    }
+
+    $element
+      .find(".glyphicon")
+      .removeClass("glyphicon-ok-circle")
+      .removeClass("valid")
+      .addClass("invalid")
+      .addClass("glyphicon-remove-circle");
+    return false;
+  };
+
+  // Enforces server side password rules on the client for convenience
+  var enforceRules = function() {
+    $(".invalid").removeClass("invalid");
+
+    var pw = password.val().toLowerCase();
+
+    var hasEight = pw.length >= minPasswordLength;
+    var hasLower = _hasLowerCase.test(password.val());
+    var hasUpper = _hasUpperCase.test(password.val());
+    var hasDigit = _hasDigit.test(password.val());
+    var hasSpecial = _hasSpecial.test(password.val());
+
+    checkAndSwitchClasses(hasEight, hasEightCharsListItem);
+    checkAndSwitchClasses(hasLower, hasLowerCaseListItem);
+    checkAndSwitchClasses(hasUpper, hasUpperCaseListItem);
+    checkAndSwitchClasses(hasDigit, hasDigitListItem);
+    checkAndSwitchClasses(hasSpecial, hasSpecialListItem);
+
+    if (pw.length === 0) $(".invalid").removeClass("invalid");
+
+    // don't move forward until the password is actually *good*
+    /*        if (!(hasEight && hasLower && hasUpper && hasDigit && hasSpecial)) {
+            return false;
+        }*/
+
+    if (
+      mustMatch() &&
+      (hasEight && hasLower && hasUpper && hasDigit && hasSpecial)
+    ) {
+      $("#submit").addClass("valid");
+    } else {
+      $("#submit").removeClass("valid");
+    }
+  };
+
+  return {
+    init: function() {
+      // hook all password/password2 fields on a page
+      password = $("#password");
+      password2 = $("#password-verify");
+
+      // hook all req list items
+      hasEightCharsListItem = $("#req-length");
+      hasUpperCaseListItem = $("#req-upper");
+      hasLowerCaseListItem = $("#req-lower");
+      hasSpecialListItem = $("#req-special");
+      hasDigitListItem = $("#req-digit");
+
+      password.keyup(enforceRules);
+      password2.keyup(enforceRules);
+    }
+  };
+})();</script>

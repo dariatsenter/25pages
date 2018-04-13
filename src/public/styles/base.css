@@ -6,3 +6,99 @@ body{
 	font-style: medium;
 	font-size: 4em;
 }
+
+/*
+ * Requirements list
+ */
+.req-container ul {
+  list-style-type: none;
+  padding: 0px;
+}
+/*
+ * form
+ */
+.form-container input {
+  background-color: #bdc3c7;
+  border: 0px;
+  padding: 3px 10px;
+  margin: 5px 0px;
+  font-size: 18px;
+  width: 150px;
+  box-shadow: 3px 3px 0px 0px #ecf0f1;
+  display: inline-block;
+}
+.form-container input:focus {
+  background-color: #ecf0f1;
+  box-shadow: 3px 3px 0px 0px #bdc3c7;
+  outline: none;
+}
+.form-container input.invalid {
+  background: rgba(192,57,43,0.85);
+}
+.form-container button {
+  border: 0px;
+  margin: 5px 0px;
+  background-color: #bdc3c7;
+  font-size: 18px;
+  box-shadow: 3px 3px 0px 0px #ecf0f1;
+}
+.form-container button:focus {
+  box-shadow: none;
+  outline: none;
+  box-shadow: 3px 3px 0px 0px #7f8c8d;
+}
+.form-container button:hover {
+  background-color: #ecf0f1;
+  box-shadow: 3px 3px 0px 0px #bdc3c7;
+}
+.form-container button.valid {
+  transition: all 0.75s ease;
+  background-color: rgba(39,174,96,0.85);
+}
+input::-webkit-input-placeholder {
+  color: #fff;
+}
+input:focus::-webkit-input-placeholder {
+  color: #ecf0f1;
+}
+input::-moz-placeholder {
+  color: #fff;
+}
+input:focus::-moz-placeholder {
+  color: #ecf0f1;
+}
+/*
+ * req list
+ */
+.req-container ul li {
+  font-size: 18px;
+  padding: 2.5px 0px;
+}
+.req-container ul li .glyphicon {
+  transition: all 0.75s ease;
+  float: left;
+}
+.req-container ul li .glyphicon.invalid {
+  color: #c0392b;
+}
+.req-container ul li .glyphicon.valid {
+  color: #27ae60;
+  font-size: 22.5px;
+  -webkit-transform: rotate(360deg);
+}
+/*
+ * containers
+ */
+#main-container {
+  width: 450px;
+  padding: 15px;
+  margin: auto;
+}
+.form-container {
+  float: left;
+}
+.req-container {
+  float: left;
+  margin: auto;
+  padding-left: 120px;
+}

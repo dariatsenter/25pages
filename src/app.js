@@ -121,6 +121,20 @@ function success(newUser){
 	auth.login(req.body.username, req.body.password, error, success);
 });
 
+app.get('/logout', (req, res) =>{
+	if (req.session){
+		//destroy session
+		req.session.destroy((err)=>{
+			if (err){
+				res.render('/', err);
+			} else{
+				res.redirect('/');
+			}
+		});
+	}
+});
+
+
 module.exports = app;
 
 

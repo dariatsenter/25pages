@@ -9,6 +9,14 @@
     <!-- Bootstrap CSS -->
 	<!-- <link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
 	<link rel="stylesheet" type="text/css" href="styles/base.css">
+
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+
+	
 </head>
 
 <body>
@@ -20,18 +28,19 @@
 
 <nav>
   <a href="/">About</a>
+  {{#if user}}
   <a href="/addlog">Add Log</a>
+  <a href="/logout">Log out</a>
+  {{else}}
   <a href="/login">Login</a>
   <a href="/register">Sign Up</a>
+  {{/if}}
 </nav> 
 
 
 
  {{{body}}}
 <br>
-
-
-
 
 </body>
 
