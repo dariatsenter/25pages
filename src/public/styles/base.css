@@ -2,21 +2,12 @@ body{
 	font-family: "Fira Sans";
 	text-align: center;
 }
-.logo{
-	font-style: medium;
-	font-size: 4em;
-}
 
-/*
- * Requirements list
- */
 .req-container ul {
   list-style-type: none;
   padding: 0px;
 }
-/*
- * form
- */
+
 .form-container input {
   background-color: #bdc3c7;
   border: 0px;
@@ -55,21 +46,8 @@ body{
   transition: all 0.75s ease;
   background-color: rgba(39,174,96,0.85);
 }
-input::-webkit-input-placeholder {
-  color: #fff;
-}
-input:focus::-webkit-input-placeholder {
-  color: #ecf0f1;
-}
-input::-moz-placeholder {
-  color: #fff;
-}
-input:focus::-moz-placeholder {
-  color: #ecf0f1;
-}
-/*
- * req list
- */
+
+
 .req-container ul li {
   font-size: 18px;
   padding: 2.5px 0px;
@@ -86,9 +64,7 @@ input:focus::-moz-placeholder {
   font-size: 22.5px;
   -webkit-transform: rotate(360deg);
 }
-/*
- * containers
- */
+
 #main-container {
   width: 450px;
   padding: 15px;
