@@ -1,0 +1,27 @@
+<h2>Add Log</h2>
+{{#if message}}
+<div class="error">{{ message }}</div>
+{{/if}}
+<form method="POST" action="addlog">
+	<div>
+		<label for="number">Number of pages:</label>
+		<input type="number" name="number" min="1" max="1000">
+	</div>
+	<div>
+		<label for="author">Title:</label> 
+		<input type="text" name="title" value="">
+	</div>
+	<div>
+		<label for="author">Author:</label>
+		<input type="text" name="author" value="">
+	</div>
+	<div>
+		<label for="date">Date:</label>
+		<input type="date" name="date" value="">
+	</div>
+	<div>
+		<label for="comments">Comments:</label>
+		<input type="text" name="comments" value="">
+	</div>
+	<div><input type="submit" value="add"></div>
+</form>

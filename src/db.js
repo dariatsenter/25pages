@@ -3,8 +3,7 @@ const mongoose = require('mongoose');
 // add your schemas
 const Book = new mongoose.Schema({
 	title: {type: String, unique: true, required: true},
-	author: {type: String, unique: true, required: true},
-	comments: String,
+	author: {type: String, unique: true, required: true}
 });
 module.exports = mongoose.model("Book", Book);
 

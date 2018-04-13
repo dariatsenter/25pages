@@ -47,6 +47,36 @@ app.get('/', (req, res) =>{
 });
 
 
+app.get('/addlog', (req, res) =>{
+	res.render('addlog');
+});
+
+app.post('/addlog', (req, res) =>{
+	if (req.session.user){
+
+	const newBook = new Book({title: req.body.title, author: req.body.author});
+	newBook.save((err) =>{
+		if (err){
+			res.render('addlog', err);
+			console.log(err);
+		}else{
+			const newLog = new Log({date: req.body.date, book: newBook, comments: req.body.comments, user: req.session.user._id});
+			newLog.save((err) =>{
+				if (err){
+					res.render('addlog', err);
+					console.log(err);
+				}else{
+					res.redirect('/');
+				}
+			});
+		}
+	});
+
+	}else{
+		res.redirect('/login');
+	}
+});
+
 
 app.get('/register', (req, res) => {
 	res.render('register');
