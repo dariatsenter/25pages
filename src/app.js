@@ -4,7 +4,7 @@
 //4/3/18
 require('./db');
 require('dotenv').config();
-require('bootstrap');
+//require('bootstrap');
 const mongoose = require('mongoose');
 const express = require('express');
 const session = require('express-session');
