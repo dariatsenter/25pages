@@ -20,7 +20,8 @@
   },
   "homepage": "https://github.com/nyu-csci-ua-0480-008-spring-2018/dt1308-final-project#readme",
   "devDependencies": {
-    "eslint": "^4.19.1"
+    "eslint": "^4.19.1",
+    "eslint-plugin-mocha": "^5.0.0"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

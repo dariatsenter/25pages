@@ -5,7 +5,7 @@ const User = mongoose.model('User');
 
 function register(username, email, password, errorCallback, successCallback) {
 	if (username.length >= 8 && password.length >= 8){
-		User.findOne({username: username}, (err, result, count) => {
+		User.findOne({username: username}, (err, result) => {
 			if (result){
 				errorCallback({message: "USERNAME ALREADY EXISTS"});
 				console.log("USERNAME ALREADY EXISTS");
@@ -39,7 +39,7 @@ function register(username, email, password, errorCallback, successCallback) {
 }
 
 function login(username, password, errorCallback, successCallback) {
-	User.findOne({username: username}, (err, user, count) => {
+	User.findOne({username: username}, (err, user) => {
 	if (!err && user) {
     // compare with form password!
 	bcrypt.compare(password, user.password, (err, passwordMatch) => {
@@ -62,18 +62,18 @@ function login(username, password, errorCallback, successCallback) {
 
 function startAuthenticatedSession(req, user, cb) {
 
-	 // assuming that user is the user retrieved from the database
+	// assuming that user is the user retrieved from the database
 	req.session.regenerate((err) => {
-	  if (err) {
-	  	console.log("SESSION REGENERATION");
-	  	cb({message: "REGENERATING SESSION"});
-	  } else {
-	    req.session.user = {
-	    	username: user.username,
-	    	_id: user._id
-	    };
-	  }
-	  cb();
+		if (err) {
+			console.log("SESSION REGENERATION");
+			cb({message: "REGENERATING SESSION"});
+		} else {
+		req.session.user = {
+			username: user.username,
+			_id: user._id
+		};
+		}
+	cb();
 	});
 }
 

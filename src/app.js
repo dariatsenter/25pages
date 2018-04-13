@@ -16,7 +16,7 @@ const bodyParser = require('body-parser');
 
 const app = express();
 
-const User = mongoose.model('User');
+
 const Log = mongoose.model('Log');
 const Book = mongoose.model('Book');
 
