@@ -1,5 +1,4 @@
 // dt1308: linserv1.cims.nyu.edu, port 11256
-
 // Daria Tsenter
 //4/3/18
 require('./db');
@@ -9,12 +8,16 @@ const mongoose = require('mongoose');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 const auth = require('./auth.js');
 
 
 const bodyParser = require('body-parser');
 
 const app = express();
+app.use(passport.initialize());
+app.use(passport.session());
 
 
 const Log = mongoose.model('Log');
@@ -43,10 +46,55 @@ app.use((req, res, next) => {
 	next();
 });
 
+passport.use("register", new LocalStrategy(function(username, password, done){
+	User.findOne({ username : username}, function(err, user){
+		if(err) { return done(err); }
+		if(!user){
+			return done(null, false, { message: 'Incorrect username.' });
+		}
+
+		hash( password, user.salt, function (err, hash) {
+			if (err) { return done(err); }
+			if (hash == user.hash) return done(null, user);
+			done(null, false, { message: 'Incorrect password.' });
+		});
+	});
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user._id);
+});
+ 
+passport.deserializeUser(function(id, done) {
+  User.findById(id, function(err, user) {
+    done(err, user);
+  });
+});
+
+app.use(function authenticatedOrNot(req, res, next){
+    if(req.isAuthenticated()){
+        next();
+    }else{
+        res.redirect("/login");
+    }
+});
+
+app.use(function userExist(req, res, next) {
+    User.count({
+        username: req.body.username
+    }, function (err, count) {
+        if (count === 0) {
+            next();
+        } else {
+            // req.session.error = "User Exist"
+            res.redirect("/register");
+        }
+    });
+});
+
 app.get('/', (req, res) =>{
 	res.render('about');
 });
-
 
 app.get('/addlog', (req, res) =>{
 	res.render('addlog');
@@ -64,10 +112,9 @@ app.post('/addlog', (req, res) =>{
 			const newLog = new Log({date: req.body.date, book: newBook, comments: req.body.comments, access: req.body.access, user: req.session.user._id});
 			newLog.save((err) =>{
 				if (err){
-					res.render('addlog', err);
-					console.log(err);
+					res.json(err);
 				}else{
-					res.redirect('/');
+					res.send(newLog);
 				}
 			});
 		}

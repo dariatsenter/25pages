@@ -29,11 +29,13 @@
 <br>
 
 <nav>
-  <a href="/">About</a>
+
   {{#if user}}
+    <a href="/mylogs">My Logs</a>
   <a href="/addlog">Add Log</a>
   <a href="/logout">Log out</a>
   {{else}}
+  <a href="/">About</a>
   <a href="/login">Login</a>
   <a href="/register">Sign Up</a>
   {{/if}}
