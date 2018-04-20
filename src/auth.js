@@ -4,7 +4,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 function register(username, email, password, errorCallback, successCallback) {
-	if (username.length >= 8 && password.length >= 8){
+	if (username.length >= 6 && password.length >= 6){
 		User.findOne({username: username}, (err, result) => {
 			if (result){
 				errorCallback({message: "USERNAME ALREADY EXISTS"});

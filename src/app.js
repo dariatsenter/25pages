@@ -35,6 +35,7 @@ app.use(session({
     secret: 'pink',
     resave: false,
     saveUninitialized: true,
+    expires: new Date(Date.now() + 3600000),
 }));
 
 app.use((req, res, next) => {
@@ -60,7 +61,7 @@ app.post('/addlog', (req, res) =>{
 			res.render('addlog', err);
 			console.log(err);
 		}else{
-			const newLog = new Log({date: req.body.date, book: newBook, comments: req.body.comments, user: req.session.user._id});
+			const newLog = new Log({date: req.body.date, book: newBook, comments: req.body.comments, access: req.body.access, user: req.session.user._id});
 			newLog.save((err) =>{
 				if (err){
 					res.render('addlog', err);

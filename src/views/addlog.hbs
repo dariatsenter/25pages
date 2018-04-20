@@ -17,11 +17,31 @@
 	</div>
 	<div>
 		<label for="date">Date:</label>
-		<input type="date" name="date" value="">
+		<input type="date" id="datePicker" name="date" value="">
 	</div>
 	<div>
 		<label for="comments">Comments:</label>
 		<input type="text" name="comments" value="">
 	</div>
+	<div>
+		<input class="w3-radio" type="radio" name="access" value="public" checked>
+		<label>public</label>
+
+		<input class="w3-radio" type="radio" name="access" value="private">
+		<label>private</label>
+	</div>
 	<div><input type="submit" value="add"></div>
 </form>
+
+
+<!-- <script> 
+	document.getElementById('datePicker').value = new Date();
+</script> -->
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#datePicker" ).datepicker();
+  } );
+  </script>

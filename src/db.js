@@ -19,6 +19,7 @@ const Log = new mongoose.Schema({
 	date: {type: Date, required: true},
 	book: {type: Book, unique: true, required: true},
 	comments: String,
+	access: String,
 	user: {type: mongoose.Schema.Types.ObjectId, ref: "User"},
 });
 
