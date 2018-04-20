@@ -8,12 +8,15 @@ const mongoose = require('mongoose');
 const express = require('express');
 const session = require('express-session');
 const path = require('path');
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
 const auth = require('./auth.js');
+const bcrypt = require('bcrypt');
+const flash = require('connect-flash');
 
 
 const bodyParser = require('body-parser');
+
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 const app = express();
 app.use(passport.initialize());
@@ -22,7 +25,37 @@ app.use(passport.session());
 
 const Log = mongoose.model('Log');
 const Book = mongoose.model('Book');
+const User = mongoose.model("User");
 
+
+passport.use(new LocalStrategy(function(username, password, done){
+	User.findOne({ username : username}, function(err, user){
+		console.log("in passport localstrategy findone");
+		if(err) { return done(err); }
+		if(!user){
+			return done(null, false, { message: 'Incorrect username.' });
+		}
+
+		bcrypt.compare(password, user.password, (err, res) =>{
+			if (err){
+				return done(err);
+			}else if (!res){
+				return done(null, false, {message: "USERNAME OR PASSWORD NOT FOUND"});
+			}
+			return done(null, user);
+		})
+	});
+}));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.username);
+});
+ 
+passport.deserializeUser(function(username, done) {
+  User.findOne({username: username}, function(err, user) {
+    done(err, user);
+  });
+});
 
 
 // view engine setup
@@ -41,56 +74,18 @@ app.use(session({
     expires: new Date(Date.now() + 3600000),
 }));
 
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
+
 app.use((req, res, next) => {
-	res.locals.user = req.session.user;
+	console.log("req.user", req.user);
+	res.locals.user = req.user;
 	next();
 });
 
-passport.use("register", new LocalStrategy(function(username, password, done){
-	User.findOne({ username : username}, function(err, user){
-		if(err) { return done(err); }
-		if(!user){
-			return done(null, false, { message: 'Incorrect username.' });
-		}
-
-		hash( password, user.salt, function (err, hash) {
-			if (err) { return done(err); }
-			if (hash == user.hash) return done(null, user);
-			done(null, false, { message: 'Incorrect password.' });
-		});
-	});
-}));
-
-passport.serializeUser(function(user, done) {
-  done(null, user._id);
-});
- 
-passport.deserializeUser(function(id, done) {
-  User.findById(id, function(err, user) {
-    done(err, user);
-  });
-});
-
-app.use(function authenticatedOrNot(req, res, next){
-    if(req.isAuthenticated()){
-        next();
-    }else{
-        res.redirect("/login");
-    }
-});
-
-app.use(function userExist(req, res, next) {
-    User.count({
-        username: req.body.username
-    }, function (err, count) {
-        if (count === 0) {
-            next();
-        } else {
-            // req.session.error = "User Exist"
-            res.redirect("/register");
-        }
-    });
-});
 
 app.get('/', (req, res) =>{
 	res.render('about');
@@ -131,43 +126,22 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-	function success(newUser){
-		auth.startAuthenticatedSession(req, newUser, (err) => {
-			if (err){
-				res.render('register', err);
-			} else{
-				res.redirect('/');
-			}
-		});
-	}
-	function error(err){
-		res.render('register', err);
-	}
+	console.log("body parsing", req.body);	
+	const authenticate = passport.authenticate("local", {successRedirect: "/", failureRedirect: "/register", failureFlash: true});
 	// console.log(req.body);
-	auth.register(req.body.username, req.body.email, req.body.password, error, success);
+	auth.register(req.body.username, req.body.email, req.body.password, authenticate.bind(null, req, res), (err) =>{
+		res.render("register", {message: err.message});
+	} );
 });
 
 app.get('/login', (req, res) =>{
-	res.render('login');
+	res.render("login");
 });
-
-app.post('/login', (req, res) =>{
-function success(newUser){
-		auth.startAuthenticatedSession(req, newUser, (err) => {
-			if (err){
-				res.render('login', err);
-			} else{
-				res.redirect('/');
-			}
-		});
-	}
 	
-	function error(err){
-		res.render('login', err);
-	}
 
-	auth.login(req.body.username, req.body.password, error, success);
-});
+app.post('/login', 
+	passport.authenticate("local", {successRedirect: "/", failureRedirect: "/login", failureFlash: true})
+);
 
 app.get('/logout', (req, res) =>{
 	if (req.session){
