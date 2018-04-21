@@ -7,7 +7,6 @@ const User = mongoose.model('User');
 function register(username, email, password, successCallback, errorCallback) {
 	if (username.length >= 6 && password.length >= 6){
 		User.findOne({username: username}, (err, result) => {
-			console.log("result", result);
 			if (result){
 				errorCallback({message: "USERNAME ALREADY EXISTS"});
 				console.log("USERNAME ALREADY EXISTS");
@@ -26,7 +25,6 @@ function register(username, email, password, successCallback, errorCallback) {
 							errorCallback({message: "DOCUMENT SAVE ERROR"});
 							console.log("DOCUMENT SAVE ERROR");
 						} else{
-							console.log(savedUser.username, savedUser.password);
 							successCallback(savedUser.username, savedUser.password);
 						} 
 					});

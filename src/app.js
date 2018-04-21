@@ -11,6 +11,8 @@ const path = require('path');
 const auth = require('./auth.js');
 const bcrypt = require('bcrypt');
 const flash = require('connect-flash');
+const hbs = require("hbs");
+hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 
 const bodyParser = require('body-parser');
@@ -91,12 +93,38 @@ app.get('/', (req, res) =>{
 	res.render('about');
 });
 
+app.get("/explore", (req, res) =>{
+	res.render("explore");
+});
+
+app.get('/api/users', function(req, res) {
+	// TODO: retrieve all reviews or use filters coming in from req.query
+	// send back as JSON list
+	const query = {};
+
+	if (req.query.username !== undefined && req.query.username !== ""){
+		query["username"] = { "$regex": req.query.username, "$options": "i" };
+	}
+
+	console.log("query is trying ", query );
+	User.find(query, function(err, users, count){
+		res.json(users);
+	});
+});
+
+
 app.get('/addlog', (req, res) =>{
-	res.render('addlog');
+	if (req.user){
+		Log.find({user: req.user._id}, function(err, logs, count) {
+			res.render('addlog', {user: res.locals.user, allLogs: logs});
+		}).sort('-date').exec(function(err, docs) {});;
+	} else{
+		res.redirect("/login");
+	}
 });
 
 app.post('/addlog', (req, res) =>{
-	if (req.session.user){
+	if (req.user){
 
 	const newBook = new Book({title: req.body.title, author: req.body.author});
 	newBook.save((err) =>{
@@ -104,12 +132,12 @@ app.post('/addlog', (req, res) =>{
 			res.render('addlog', err);
 			console.log(err);
 		}else{
-			const newLog = new Log({date: req.body.date, book: newBook, comments: req.body.comments, access: req.body.access, user: req.session.user._id});
+			const newLog = new Log({number: req.body.number, date: req.body.date, book: newBook, comments: req.body.comments, access: req.body.access, user: req.user._id});
 			newLog.save((err) =>{
 				if (err){
 					res.json(err);
 				}else{
-					res.send(newLog);
+					res.redirect("/addlog");
 				}
 			});
 		}

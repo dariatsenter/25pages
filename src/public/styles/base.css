@@ -1,6 +1,21 @@
-body{
+body, #allLogs{
 	font-family: "Fira Sans";
 	text-align: center;
+}
+table, td, th, thead {
+    border: 1px solid black;
+    text-align: center;
+}
+
+table {
+  margin-top: 2em;
+    border-collapse: collapse;
+    width: 50%;
+    text-align: center;
+}
+
+th {
+    height: 50px;
 }
 
 .req-container ul {

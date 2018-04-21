@@ -16,6 +16,7 @@ const User = new mongoose.Schema({
 module.exports = mongoose.model("User", User);
 
 const Log = new mongoose.Schema({
+	number: Number,
 	date: {type: Date, required: true},
 	book: {type: Book, unique: true, required: true},
 	comments: String,

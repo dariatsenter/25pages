@@ -33,15 +33,42 @@
 	<div><input type="submit" value="add"></div>
 </form>
 
+<div id="allLogs">
+	<table class="scroll" align="center">
+    <thead>
+        <tr>
+        	<th>Pages</th>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Date</th>
+            <th>Comments</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- insert all logs here --> 
+        {{#each allLogs}}
+        <tr>
+        	<td>{{this.number}}</td>
+			<td>{{this.book.title}}</td>
+			<td>{{this.book.title}}</td>
+			<td>{{dateFormat this.date "dddd, MMMM Do YYYY" utc}}</td>
+			<td>{{this.comments}}</td>
+		</tr>
+		{{/each}}     
+    </tbody>
+</table>
+</div>
+
 
 <!-- <script> 
 	document.getElementById('datePicker').value = new Date();
 </script> -->
 <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
-  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-  <script>
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script>
   $( function() {
     $( "#datePicker" ).datepicker();
   } );
-  </script>
+</script>
+
