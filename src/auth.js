@@ -39,30 +39,6 @@ function register(username, email, password, successCallback, errorCallback) {
 	}
 }
 
-
-
-// function login(username, password, errorCallback, successCallback) {
-// 	User.findOne({username: username}, (err, user) => {
-// 	if (!err && user) {
-//     // compare with form password!
-// 	bcrypt.compare(password, user.password, (err, passwordMatch) => {
-// 			// regenerate session if passwordMatch is true
-// 		if (passwordMatch){
-// 			successCallback(user);	
-// 		} else{
-// 			errorCallback({message: "PASSWORDS DO NOT MATCH"});
-// 			console.log("PASSWORDS DO NOT MATCH");
-// 		}
-// 	});
-
-// 	} else{
-// 		errorCallback({message: "USER NOT FOUND"});
-// 		console.log("USER NOT FOUND");
-// 	}
-// });
-
-// }
-
 function startAuthenticatedSession(req, user, cb) {
 	// assuming that user is the user retrieved from the database
 	req.session.regenerate((err) => {

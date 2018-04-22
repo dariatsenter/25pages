@@ -94,7 +94,11 @@ app.get('/', (req, res) =>{
 });
 
 app.get("/explore", (req, res) =>{
-	res.render("explore");
+	if (req.user){
+		res.render("explore");
+	} else{
+		res.redirect("/login");
+	}
 });
 
 app.get('/api/users', function(req, res) {
@@ -109,6 +113,14 @@ app.get('/api/users', function(req, res) {
 	console.log("query is trying ", query );
 	User.find(query, function(err, users, count){
 		res.json(users);
+	});
+});
+
+app.get('/user/:username', (req, res) =>{
+	User.findOne({"username": req.params.username}, function(err, user, count){
+		Log.find({"user": user,"access": "public"}, function(err, logs, count){
+			res.render("publicuser", {user: user, publicLogs: logs});
+		});
 	});
 });
 

@@ -9,8 +9,13 @@ function handleMain(req){
 			const newRow = document.createElement("tr");
 
 			const newCell = document.createElement("td");
-			newCell.appendChild(document.createTextNode(user.username));
+			const a = document.createElement("a");
+			a.appendChild(document.createTextNode(user.username));
+			a.title = user.username;
+			a.href = "/user/" + user.username;
+			newCell.appendChild(a);
 			newRow.appendChild(newCell);
+
 
 			tblBody.appendChild(newRow);
 		}
@@ -50,15 +55,19 @@ function handleSearchResponse(req){
 		// remove all content to replace
 		while(tblBody.firstChild){
 			tblBody.removeChild(tblBody.firstChild);
-			console.log("removing?");
 		}
 
 		for(const user of users) {
 			const newRow = document.createElement("tr");
 
 			const newCell = document.createElement("td");
-			newCell.appendChild(document.createTextNode(user.username));
+			const a = document.createElement("a");
+			a.appendChild(document.createTextNode(user.username));
+			a.title = user.username;
+			a.href = "/user/" + user.username;
+			newCell.appendChild(a);
 			newRow.appendChild(newCell);
+
 
 			tblBody.appendChild(newRow);
 		}
