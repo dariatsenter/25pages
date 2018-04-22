@@ -26,7 +26,6 @@ app.use(passport.session());
 
 
 const Log = mongoose.model('Log');
-const Book = mongoose.model('Book');
 const User = mongoose.model("User");
 
 
@@ -110,7 +109,6 @@ app.get('/api/users', function(req, res) {
 		query["username"] = { "$regex": req.query.username, "$options": "i" };
 	}
 
-	console.log("query is trying ", query );
 	User.find(query, function(err, users, count){
 		res.json(users);
 	});
@@ -137,24 +135,14 @@ app.get('/addlog', (req, res) =>{
 
 app.post('/addlog', (req, res) =>{
 	if (req.user){
-
-	const newBook = new Book({title: req.body.title, author: req.body.author});
-	newBook.save((err) =>{
-		if (err){
-			res.render('addlog', err);
-			console.log(err);
-		}else{
-			const newLog = new Log({number: req.body.number, date: req.body.date, book: newBook, comments: req.body.comments, access: req.body.access, user: req.user._id});
-			newLog.save((err) =>{
-				if (err){
-					res.json(err);
-				}else{
-					res.redirect("/addlog");
-				}
-			});
-		}
-	});
-
+		const newLog = new Log({number: req.body.number, date: req.body.date, title: req.body.title, author: req.body.author, comments: req.body.comments, access: req.body.access, user: req.user._id});
+		newLog.save((err) =>{
+			if (err){
+				res.json(err);
+			}else{
+				res.redirect("/addlog");
+			}
+		});
 	}else{
 		res.redirect('/login');
 	}
@@ -166,7 +154,6 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-	console.log("body parsing", req.body);	
 	const authenticate = passport.authenticate("local", {successRedirect: "/", failureRedirect: "/register", failureFlash: true});
 	// console.log(req.body);
 	auth.register(req.body.username, req.body.email, req.body.password, authenticate.bind(null, req, res), (err) =>{
