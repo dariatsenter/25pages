@@ -92,6 +92,10 @@ app.get('/', (req, res) =>{
 	res.render('about');
 });
 
+app.get('/img/logo-white-background.png', (req, res) =>{
+	res.sendFile('/img/logo-white-background.png');
+});
+
 app.get("/explore", (req, res) =>{
 	if (req.user){
 		res.render("explore");

@@ -1,5 +1,5 @@
 body, #allLogs{
-	font-family: "Fira Sans";
+	font-family: "Helvetica Neue";
 	text-align: center;
 }
 table, td, th, thead {
@@ -16,6 +16,26 @@ table {
 
 th {
     height: 50px;
+}
+
+#logo-image{
+  margin-top: 2em;
+  margin-bottom: 0.25em;
+  height: 70px;
+  width: 70px;
+}
+
+nav{
+  margin: 0.25em;
+}
+
+a{
+  color: #62448C;
+}
+
+a:hover{
+  color: #8AB094;
+  text-decoration: none;
 }
 
 .req-container ul {
