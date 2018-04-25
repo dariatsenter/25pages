@@ -6,6 +6,7 @@ require('dotenv').config();
 //require('bootstrap');
 const mongoose = require('mongoose');
 const express = require('express');
+const nodemailer = require('nodemailer');
 const session = require('express-session');
 const path = require('path');
 const auth = require('./auth.js');
@@ -207,6 +208,29 @@ app.get('/logout', (req, res) =>{
 
 app.get('/feedback', (req, res)=>{
 	res.render('feedback');
+});
+
+app.post('/feedback', (req, res) =>{
+	let smtpTransport = nodemailer.createTransport("SMTP", {
+		service: "Gmail",
+		auth: {
+			user: "25pagesuser@gmail.com",
+			pass: "25pagesclub"
+		}});
+
+		smtpTransport.sendMail({
+			from: "Sender Name <25pagesuser@gmail.com>",
+			to: "Admin <25pagesclub@gmail.com>",
+			subject: req.body.subject,
+			html: req.body.message}, function(error, response){  //callback
+         if(error){
+           console.log(error);
+        }else{
+           console.log("Message sent: " + res.message);
+       }
+
+   smtpTransport.close();
+ });
 });
 
 
