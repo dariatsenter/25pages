@@ -8,9 +8,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
 	<!-- <link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
-	<link rel="stylesheet" type="text/css" href="styles/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="styles/base.css">
+	<link rel="stylesheet" type="text/css" href="../styles/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="../styles/base.css">
   <link rel="icon"  href="/favicon.ico" />
+	<link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
 
 
 <!-- RESEARCH: experimenting with bootstrap -->
@@ -23,25 +24,30 @@
 </head>
 
 <body>
-  <img id="logo-image" src="img/logo-white-background.png" alt="25 pages club">
 
-<nav>
+<nav class="topnav">
   {{#if user}}
-    <a href="/explore">Explore</a>
+  <a href="/explore">Explore</a>
   <a href="/addlog">Add Log</a>
+	<a href="/mystats">My Stats</a>
   <a href="/logout">Log out</a>
   {{else}}
   <a href="/">About</a>
   <a href="/login">Login</a>
   <a href="/register">Sign Up</a>
   {{/if}}
-</nav> 
+	<a href="/feedback">Feedback!</a>
+</nav>
 
+<a href="/">
+<img id="logo-image" src="../img/logo-white-background.png" alt="25 pages club">
+</a>
 
 
  {{{body}}}
-<br>
-
+<!-- <div id="wrapper">
+<a href="buymeacoff.ee/3uqE1FRno" class="coffeebtn" id="coffeeButton">Enjoying the club? Buy me a coffee!</a>
+</div> -->
 </body>
 
 </html>

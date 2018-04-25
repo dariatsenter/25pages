@@ -1,28 +1,108 @@
-body, #allLogs{
+body, label{
 	font-family: "Helvetica Neue";
+	font-size: 18px;
 	text-align: center;
 }
-table, td, th, thead {
-    border: 1px solid black;
-    text-align: center;
+
+.topnav{
+	padding: 15px;
+	margin: 0;
+	overflow: hidden;
+	background-color: #E6D6FC;
+	text-align: center;
 }
 
-table {
-  margin-top: 2em;
-    border-collapse: collapse;
-    width: 50%;
-    text-align: center;
+.topnav a{
+	/* float: left; */
+	color: #fff;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
 }
 
-th {
-    height: 50px;
+.topnav a:hover {
+  background-color: #DAEDDF;
+  color: black;
+}
+
+h1{
+	padding: 25px;
+  font-size: 30px;
+  text-transform: uppercase;
+  font-weight: 300;
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+section{
+  margin: 50px;
+	margin-top: 10px;
+}
+
+table{
+  width:100%;
+  table-layout: fixed;
+}
+.tbl-header{
+  background-color: #DAEDDF;
+ }
+ .tbl-content{
+  height:300px;
+  overflow-x:auto;
+  margin-top: 0px;
+  border: 1px solid #DAEDDF;
+}
+th{
+  padding: 20px 15px;
+  text-align: middle;
+  text-transform: uppercase;
+}
+td{
+  padding: 15px;
+  text-align: middle;
+  vertical-align:middle;
+  font-weight: 300;
+  border-bottom: solid 1px  #DAEDDF;
+}
+#exploreForm{
+	margin: auto;
+	width:30%;
+  table-layout: fixed;
+}
+
+#exploreTable{
+	margin-top: 25px;
+}
+#publicLogs{
+	margin: auto;
+	width: 70%;
+}
+#statsTable{
+	margin: auto;
+	width:30%;
+  table-layout: fixed;
+}
+
+.stats{
+	font-size: 2em;
+	font-weight: 400;
+}
+::-webkit-scrollbar {
+    width: 6px;
+}
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+::-webkit-scrollbar-thumb {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
 }
 
 #logo-image{
-  margin-top: 2em;
-  margin-bottom: 0.25em;
-  height: 70px;
-  width: 70px;
+  margin-top: 15px;
+  margin-bottom: 30px;
+  height: 80px;
+  width: 80px;
 }
 
 nav{
@@ -37,6 +117,65 @@ a:hover{
   color: #8AB094;
   text-decoration: none;
 }
+
+input[type=submit]{
+  -webkit-border-radius: 10;
+  -moz-border-radius: 10;
+  border-radius: 7px;
+  color: #ffffff;
+  font-size: 18px;
+  background: #C8C8C8;
+  padding: 2px 7px 3px 7px;
+	border-style: none;
+}
+
+input[type=submit]:hover {
+  background: #B2A0A7;
+
+}
+
+.coffeebtn {
+  -webkit-border-radius: 40;
+  -moz-border-radius: 40;
+  border-radius: 7px;
+  color: #ffffff;
+  font-size: 20px;
+  background: #FFEABC	;
+  padding: 10px 20px 10px 20px;
+  position: absolute;
+	bottom: 25px;
+	left: 50%;
+	transform: translateX(-50%);
+}
+
+.coffeebtn:hover {
+	color: #ffffff;
+  background: #ffcd69;
+  text-decoration: none;
+}
+
+#searchChange{
+	width: 130px;
+
+}
+input[id="searchChange"]{
+	padding-left: 5px;
+	border-style: solid;
+	border-color: #ddd;
+}
+
+#myForm button{
+  padding: 2px 7px;
+  margin-top: 8px;
+  margin-right: 16px;
+  background: #ddd;
+  font-size: 17px;
+  border: none;
+  cursor: pointer;
+}
+
+
+
 
 .req-container ul {
   list-style-type: none;

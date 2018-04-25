@@ -1,4 +1,4 @@
-<h2>Add Log</h2>
+<h1>Add Log</h1>
 {{#if message}}
 <div class="error">{{ message }}</div>
 {{/if}}
@@ -8,7 +8,7 @@
 		<input type="number" name="number" min="1" max="1000">
 	</div>
 	<div>
-		<label for="author">Title:</label> 
+		<label for="author">Title:</label>
 		<input type="text" name="title" value="">
 	</div>
 	<div>
@@ -33,10 +33,14 @@
 	<div><input type="submit" value="add"></div>
 </form>
 
-<div id="allLogs">
-	<table class="scroll" align="center">
-    <thead>
-        <tr>
+
+<section>
+
+	<h1>Your Logs</h1>
+		<div class="tbl-header">
+		 <table id="logsHistory" cellpadding="0" cellspacing="0" border="0">
+    	<thead>
+      	<tr>
         	<th>Pages</th>
             <th>Title</th>
             <th>Author</th>
@@ -44,23 +48,29 @@
             <th>Comments</th>
         </tr>
     </thead>
+	</table>
+</div>
+<div class="tbl-content">
+	<table cellpadding="0" cellspacing="0" border="0">
     <tbody>
-        <!-- insert all logs here --> 
+        <!-- insert all logs here -->
         {{#each allLogs}}
         <tr>
         	<td>{{this.number}}</td>
-			<td>{{this.title}}</td>
-			<td>{{this.author}}</td>
-			<td>{{dateFormat this.date "dddd, MMMM Do YYYY" utc}}</td>
-			<td>{{this.comments}}</td>
-		</tr>
-		{{/each}}     
+					<td>{{this.title}}</td>
+					<td>{{this.author}}</td>
+					<td>{{dateFormat this.date "dddd, MMMM Do YYYY" utc}}</td>
+					<td>{{this.comments}}</td>
+				</tr>
+				{{/each}}
     </tbody>
-</table>
+	</table>
 </div>
 
+</section>
 
-<!-- <script> 
+
+<!-- <script>
 	document.getElementById('datePicker').value = new Date();
 </script> -->
 <link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
@@ -71,4 +81,9 @@
     $( "#datePicker" ).datepicker();
   } );
 </script>
-
+<script>
+$(window).on("load resize ", function() {
+  var scrollWidth = $('.tbl-content').width() - $('.tbl-content table').width();
+  $('.tbl-header').css({'padding-right':scrollWidth});
+}).resize();
+</script>

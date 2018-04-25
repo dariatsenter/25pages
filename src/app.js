@@ -31,7 +31,6 @@ const User = mongoose.model("User");
 
 passport.use(new LocalStrategy(function(username, password, done){
 	User.findOne({ username : username}, function(err, user){
-		console.log("in passport localstrategy findone");
 		if(err) { return done(err); }
 		if(!user){
 			return done(null, false, { message: 'Incorrect username.' });
@@ -51,7 +50,7 @@ passport.use(new LocalStrategy(function(username, password, done){
 passport.serializeUser(function(user, done) {
   done(null, user.username);
 });
- 
+
 passport.deserializeUser(function(username, done) {
   User.findOne({username: username}, function(err, user) {
     done(err, user);
@@ -82,7 +81,6 @@ app.use(passport.session());
 app.use(flash());
 
 app.use((req, res, next) => {
-	console.log("req.user", req.user);
 	res.locals.user = req.user;
 	next();
 });
@@ -126,12 +124,33 @@ app.get('/user/:username', (req, res) =>{
 	});
 });
 
+app.get('/mystats', (req, res) =>{
+	//average pages/day
+	let totalPages = {number:0};
+	let avgPages = 0;
+	let totalBooks = [];
+	if (req.user){
+		Log.find({user: req.user._id}, function(err, logs, count) {
+			totalPages = logs.reduce(function(a, b){
+				return {number: a.number + b.number};
+			});
+			avgPages = totalPages.number/logs.length;
+			let allBooks = logs.map((x) => x.title);
+			totalBooks = allBooks.filter((v, i, a) => a.indexOf(v) === i);
+				res.render("mystats", {user: res.locals.user, totalPages: totalPages.number, totalBooks: totalBooks.length, avgPages: avgPages.toFixed(2)});
+		});
+	} else{
+		res.redirect("/login");
+	}
+});
+
 
 app.get('/addlog', (req, res) =>{
 	if (req.user){
 		Log.find({user: req.user._id}, function(err, logs, count) {
 			res.render('addlog', {user: res.locals.user, allLogs: logs});
-		}).sort('-date').exec(function(err, docs) {});;
+		}).sort('-date').exec(function(err, docs) {});
+		// have an option to see only public or private, use filter
 	} else{
 		res.redirect("/login");
 	}
@@ -159,7 +178,6 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res) => {
 	const authenticate = passport.authenticate("local", {successRedirect: "/", failureRedirect: "/register", failureFlash: true});
-	// console.log(req.body);
 	auth.register(req.body.username, req.body.email, req.body.password, authenticate.bind(null, req, res), (err) =>{
 		res.render("register", {message: err.message});
 	} );
@@ -168,9 +186,9 @@ app.post('/register', (req, res) => {
 app.get('/login', (req, res) =>{
 	res.render("login");
 });
-	
 
-app.post('/login', 
+
+app.post('/login',
 	passport.authenticate("local", {successRedirect: "/", failureRedirect: "/login", failureFlash: true})
 );
 
@@ -185,6 +203,10 @@ app.get('/logout', (req, res) =>{
 			}
 		});
 	}
+});
+
+app.get('/feedback', (req, res)=>{
+	res.render('feedback');
 });
 
 

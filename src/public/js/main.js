@@ -10,7 +10,7 @@ function handleMain(req){
 
 			const newCell = document.createElement("td");
 			const a = document.createElement("a");
-			a.appendChild(document.createTextNode(user.username));
+			a.appendChild(document.createTextNode("@" + user.username));
 			a.title = user.username;
 			a.href = "/user/" + user.username;
 			newCell.appendChild(a);
@@ -62,7 +62,7 @@ function handleSearchResponse(req){
 
 			const newCell = document.createElement("td");
 			const a = document.createElement("a");
-			a.appendChild(document.createTextNode(user.username));
+			a.appendChild(document.createTextNode("@" + user.username));
 			a.title = user.username;
 			a.href = "/user/" + user.username;
 			newCell.appendChild(a);

@@ -1,5 +1,5 @@
 {{#if user}}
-<h2>{{user.username}} Logs</h2>
+<h2>@{{user.username}} Logs</h2>
 {{/if}}
 
 <div id="publicLogs">
@@ -14,7 +14,7 @@
         </tr>
     </thead>
     <tbody>
-        <!-- insert all logs here --> 
+        <!-- insert all logs here -->
         {{#each publicLogs}}
         <tr>
         	<td>{{this.number}}</td>
@@ -23,7 +23,7 @@
 			<td>{{dateFormat this.date "dddd, MMMM Do YYYY" utc}}</td>
 			<td>{{this.comments}}</td>
 		</tr>
-		{{/each}}     
+		{{/each}}
     </tbody>
 </table>
 </div>
