@@ -211,7 +211,7 @@ app.get('/feedback', (req, res)=>{
 });
 
 app.post('/feedback', (req, res) =>{
-	let smtpTransport = nodemailer.createTransport("SMTP", {
+	let smtpTransport = nodemailer.createTransport({
 		service: "Gmail",
 		auth: {
 			user: "25pagesuser@gmail.com",
@@ -219,14 +219,15 @@ app.post('/feedback', (req, res) =>{
 		}});
 
 		smtpTransport.sendMail({
-			from: "Sender Name <25pagesuser@gmail.com>",
+			from: req.body.name + " <25pagesuser@gmail.com>",
 			to: "Admin <25pagesclub@gmail.com>",
 			subject: req.body.subject,
-			html: req.body.message}, function(error, response){  //callback
+			html: req.body.message + req.body.contact}, function(error, response){  //callback
          if(error){
            console.log(error);
         }else{
-           console.log("Message sent: " + res.message);
+           console.log("Message sent: " + res.body.message);
+					 res.render('feedback', {status: "Thank you for your feedback!"});
        }
 
    smtpTransport.close();

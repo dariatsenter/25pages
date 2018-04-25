@@ -1,6 +1,18 @@
+{{#if status}}
+<h1> {{status}} </h1>
+{{else}}
 <h1> Help us make the club better!</h1>
+{{/if}}
 
 <form method="POST" id="feedbackForm">
+  <div>
+    <label for="name"> Your name: </subject>
+	   <input type="text" name="name" >
+  </div>
+  <div>
+    <label for="contact"> Your contact email: </subject>
+	   <input type="email" name="contact" >
+  </div>
   <div>
     <label for="subject"> Subject: </subject>
 	   <input type="text" name="subject" placeholder="Subject...">
