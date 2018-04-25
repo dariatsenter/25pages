@@ -1,20 +1,18 @@
 {{#if status}}
-<h1> {{status}} </h1>
+<h1>{{status}}</h1>
 {{else}}
 <h1> Help us make the club better!</h1>
-{{/if}}
-
-<form method="POST" id="feedbackForm">
+<form method="POST" action="/feedback" id="feedbackForm">
   <div>
-    <label for="name"> Your name: </subject>
-	   <input type="text" name="name" >
+    <label for="name"> Your name: </label>
+	   <input type="text" name="name" placeholder="Subject...">
   </div>
   <div>
-    <label for="contact"> Your contact email: </subject>
-	   <input type="email" name="contact" >
+    <label for="email"> Your email: </label>
+	   <input type="text" name="email" >
   </div>
   <div>
-    <label for="subject"> Subject: </subject>
+    <label for="subject"> Subject: </label>
 	   <input type="text" name="subject" placeholder="Subject...">
   </div>
 
@@ -24,3 +22,4 @@
 
 	<input type="submit"></input>
 </form>
+{{/if}}

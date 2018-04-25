@@ -222,12 +222,12 @@ app.post('/feedback', (req, res) =>{
 			from: req.body.name + " <25pagesuser@gmail.com>",
 			to: "Admin <25pagesclub@gmail.com>",
 			subject: req.body.subject,
-			html: req.body.message + req.body.contact}, function(error, response){  //callback
+			html: req.body.message + req.body.email}, function(error, response){  //callback
          if(error){
            console.log(error);
         }else{
-           console.log("Message sent: " + res.body.message);
-					 res.render('feedback', {status: "Thank you for your feedback!"});
+          console.log("Message sent: " + req.body.message);
+					res.render('feedback', {status: "Thank you for your feedback!"});
        }
 
    smtpTransport.close();
