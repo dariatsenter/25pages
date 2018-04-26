@@ -4,11 +4,20 @@ body, label{
 	text-align: center;
 }
 
+p{
+	margin: 5px;
+}
+
+#excuses{
+	font-style: italic;
+	margin-top: 25px;
+}
+
 .topnav{
 	padding: 15px;
 	margin: 0;
 	overflow: hidden;
-	background-color: #E6D6FC;
+	background-color: #DDDAE1;
 	text-align: center;
 }
 
@@ -21,18 +30,23 @@ body, label{
   font-size: 17px;
 }
 
-.topnav a:hover {
+.navEl a:hover {
   background-color: #DAEDDF;
   color: black;
 }
 
 h1{
-	padding: 25px;
+	padding: 20px;
   font-size: 30px;
   text-transform: uppercase;
   font-weight: 300;
   text-align: center;
   margin-bottom: 10px;
+}
+
+#navBarImage{
+	width: 50px;
+	height: 50px;
 }
 
 section{
@@ -175,246 +189,131 @@ input[id="searchChange"]{
 }
 
 
+.container {
+  display: block;
 
-
-.req-container ul {
-  list-style-type: none;
-  padding: 0px;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
 }
-
-.form-container input {
-  background-color: #bdc3c7;
-  border: 0px;
-  padding: 3px 10px;
-  margin: 5px 0px;
-  font-size: 18px;
-  width: 150px;
-  box-shadow: 3px 3px 0px 0px #ecf0f1;
-  display: inline-block;
+.container > * {
+  margin: 25px;
 }
-.form-container input:focus {
-  background-color: #ecf0f1;
-  box-shadow: 3px 3px 0px 0px #bdc3c7;
-  outline: none;
-}
-.form-container input.invalid {
-  background: rgba(192,57,43,0.85);
-}
-.form-container button {
-  border: 0px;
-  margin: 5px 0px;
-  background-color: #bdc3c7;
-  font-size: 18px;
-  box-shadow: 3px 3px 0px 0px #ecf0f1;
-}
-.form-container button:focus {
-  box-shadow: none;
-  outline: none;
-  box-shadow: 3px 3px 0px 0px #7f8c8d;
-}
-.form-container button:hover {
-  background-color: #ecf0f1;
-  box-shadow: 3px 3px 0px 0px #bdc3c7;
-}
-.form-container button.valid {
-  transition: all 0.75s ease;
-  background-color: rgba(39,174,96,0.85);
-}
-
-
-.req-container ul li {
-  font-size: 18px;
-  padding: 2.5px 0px;
-}
-.req-container ul li .glyphicon {
-  transition: all 0.75s ease;
-  float: left;
-}
-.req-container ul li .glyphicon.invalid {
-  color: #c0392b;
-}
-.req-container ul li .glyphicon.valid {
-  color: #27ae60;
-  font-size: 22.5px;
-  -webkit-transform: rotate(360deg);
-}
-
-#main-container {
-  width: 450px;
-  padding: 15px;
-  margin: auto;
-}
-.form-container {
-  float: left;
-}
-.req-container {
-  float: left;
-  margin: auto;
-  padding-left: 120px;
-}
-
-.ui-datepicker {
-  width: 17em;
-  padding: .2em .2em 0;
-  display: none;
-}
-.ui-datepicker .ui-datepicker-header {
+.one {
+	margin:auto;
+	margin-bottom: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
-  padding: .2em 0;
+  width: 200px;
+  height: 50px;
+  background: #B1D6BB;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 300;
+  letter-spacing: 1px;
+  animation: 1s shake 1s ease;
 }
-.ui-datepicker .ui-datepicker-prev,
-.ui-datepicker .ui-datepicker-next {
+.one:before {
   position: absolute;
-  top: 2px;
-  width: 1.8em;
-  height: 1.8em;
+  top: 48px;
+  left: 50px;
+  content: '';
+  border-top: 12px solid #B1D6BB;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
 }
-.ui-datepicker .ui-datepicker-prev-hover,
-.ui-datepicker .ui-datepicker-next-hover {
-  top: 1px;
+.two {
+	margin:auto;
+	margin-bottom: 25px;
+	margin-right: 38%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 200px;
+  height: 50px;
+  background: #B1D6BB;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 300;
+  letter-spacing: 1px;
+  animation: 1s shake 1.5s ease;
 }
-.ui-datepicker .ui-datepicker-prev {
-  left: 2px;
-}
-.ui-datepicker .ui-datepicker-next {
-  right: 2px;
-}
-.ui-datepicker .ui-datepicker-prev-hover {
-  left: 1px;
-}
-.ui-datepicker .ui-datepicker-next-hover {
-  right: 1px;
-}
-.ui-datepicker .ui-datepicker-prev span,
-.ui-datepicker .ui-datepicker-next span {
-  display: block;
+.two:before {
   position: absolute;
-  left: 50%;
-  margin-left: -8px;
-  top: 50%;
-  margin-top: -8px;
+  top: 48px;
+  left: 90px;
+  content: '';
+  border-top: 12px solid #B1D6BB;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
 }
-.ui-datepicker .ui-datepicker-title {
-  margin: 0 2.3em;
-  line-height: 1.8em;
-  text-align: center;
+.three {
+	margin:auto;
+	margin-bottom: 25px;
+	margin-right: 45%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 200px;
+  height: 85px;
+  background: #B1D6BB;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 300;
+  letter-spacing: 1px;
+  animation: 1s shake 2s ease;
 }
-.ui-datepicker .ui-datepicker-title select {
-  font-size: 1em;
-  margin: 1px 0;
+.three:before {
+  position: absolute;
+  top: 84px;
+  left: 110px;
+  content: '';
+  border-top: 12px solid #B1D6BB;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
 }
-.ui-datepicker select.ui-datepicker-month,
-.ui-datepicker select.ui-datepicker-year {
-  width: 45%;
+.four {
+	margin:auto;
+	margin-right: 40%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  width: 200px;
+  height: 50px;
+  background: #B1D6BB;
+  border-radius: 10px;
+  color: #fff;
+  font-weight: 300;
+  letter-spacing: 1px;
+  animation: 1s shake 2.5s ease;
 }
-.ui-datepicker table {
-  width: 100%;
-  font-size: .9em;
-  border-collapse: collapse;
-  margin: 0 0 .4em;
-}
-.ui-datepicker th {
-  padding: .7em .3em;
-  text-align: center;
-  font-weight: bold;
-  border: 0;
-}
-.ui-datepicker td {
-  border: 0;
-  padding: 1px;
-}
-.ui-datepicker td span,
-.ui-datepicker td a {
-  display: block;
-  padding: .2em;
-  text-align: right;
-  text-decoration: none;
-}
-.ui-datepicker .ui-datepicker-buttonpane {
-  background-image: none;
-  margin: .7em 0 0 0;
-  padding: 0 .2em;
-  border-left: 0;
-  border-right: 0;
-  border-bottom: 0;
-}
-.ui-datepicker .ui-datepicker-buttonpane button {
-  float: right;
-  margin: .5em .2em .4em;
-  cursor: pointer;
-  padding: .2em .6em .3em .6em;
-  width: auto;
-  overflow: visible;
-}
-.ui-datepicker .ui-datepicker-buttonpane button.ui-datepicker-current {
-  float: left;
+.four:before {
+  position: absolute;
+  top: 48px;
+  left: 90px;
+  content: '';
+  border-top: 12px solid #B1D6BB;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
 }
 
-/* with multiple calendars */
-.ui-datepicker.ui-datepicker-multi {
-  width: auto;
-}
-.ui-datepicker-multi .ui-datepicker-group {
-  float: left;
-}
-.ui-datepicker-multi .ui-datepicker-group table {
-  width: 95%;
-  margin: 0 auto .4em;
-}
-.ui-datepicker-multi-2 .ui-datepicker-group {
-  width: 50%;
-}
-.ui-datepicker-multi-3 .ui-datepicker-group {
-  width: 33.3%;
-}
-.ui-datepicker-multi-4 .ui-datepicker-group {
-  width: 25%;
-}
-.ui-datepicker-multi .ui-datepicker-group-last .ui-datepicker-header,
-.ui-datepicker-multi .ui-datepicker-group-middle .ui-datepicker-header {
-  border-left-width: 0;
-}
-.ui-datepicker-multi .ui-datepicker-buttonpane {
-  clear: left;
-}
-.ui-datepicker-row-break {
-  clear: both;
-  width: 100%;
-  font-size: 0;
+@keyframes shake {
+  0% {
+    tranform: rotate(3deg);
+  }
+  50% {
+    transform: rotate(-2deg);
+  }
+  100% {
+    tranform: rotate(3deg);
+  }
 }
 
-/* RTL support */
-.ui-datepicker-rtl {
-  direction: rtl;
-}
-.ui-datepicker-rtl .ui-datepicker-prev {
-  right: 2px;
-  left: auto;
-}
-.ui-datepicker-rtl .ui-datepicker-next {
-  left: 2px;
-  right: auto;
-}
-.ui-datepicker-rtl .ui-datepicker-prev:hover {
-  right: 1px;
-  left: auto;
-}
-.ui-datepicker-rtl .ui-datepicker-next:hover {
-  left: 1px;
-  right: auto;
-}
-.ui-datepicker-rtl .ui-datepicker-buttonpane {
-  clear: right;
-}
-.ui-datepicker-rtl .ui-datepicker-buttonpane button {
-  float: left;
-}
-.ui-datepicker-rtl .ui-datepicker-buttonpane button.ui-datepicker-current,
-.ui-datepicker-rtl .ui-datepicker-group {
-  float: right;
-}
-.ui-datepicker-rtl .ui-datepicker-group-last .ui-datepicker-header,
-.ui-datepicker-rtl .ui-datepicker-group-middle .ui-datepicker-header {
-  border-right-width: 0;
-  border-left-width: 1px;
+textarea{
+	border:1px solid grey;
 }

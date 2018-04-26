@@ -7,7 +7,7 @@
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <!-- Bootstrap CSS -->
-	<!-- <link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css"> -->
+	<link rel="stylesheet" type="text/css" href="../../node_modules/bootstrap/dist/css/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../styles/bootstrap.min.css">
 	<link rel="stylesheet" type="text/css" href="../styles/base.css">
   <link rel="icon"  href="/favicon.ico" />
@@ -27,21 +27,18 @@
 
 <nav class="topnav">
   {{#if user}}
-  <a href="/explore">Explore</a>
-  <a href="/addlog">Add Log</a>
-	<a href="/mystats">My Stats</a>
-  <a href="/logout">Log out</a>
+  <a class="navEl" href="/explore">Explore</a>
+  <a class="navEl" href="/addlog">Add Log</a>
+	<a class="navEl" href="/mystats">My Stats</a>
+  <a class="navEl" href="/logout">Log out</a>
   {{else}}
-  <a href="/">About</a>
-  <a href="/login">Login</a>
-  <a href="/register">Sign Up</a>
+	<a href="/" class="navbar-left"><img id="navBarImage" src="../img/logo-transparent.png"></a>
+  <a class="navEl" href="/">About</a>
+  <a class="navEl" href="/login">Login</a>
+  <a class="navEl" href="/register">Sign Up</a>
   {{/if}}
-	<a href="/feedback">Feedback!</a>
+	<a class="navEl" href="/feedback">Feedback!</a>
 </nav>
-
-<a href="/">
-<img id="logo-image" src="../img/logo-white-background.png" alt="25 pages club">
-</a>
 
 
  {{{body}}}
