@@ -317,3 +317,12 @@ input[id="searchChange"]{
 textarea{
 	border:1px solid grey;
 }
+
+.form-group{
+
+	width: 50%;
+}
+
+.form-inline > * {
+    margin:15px 3px !important;
+}
