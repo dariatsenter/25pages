@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const User = mongoose.model('User');
 
 function register(username, email, password, successCallback, errorCallback) {
-	if (username.length >= 6 && password.length >= 6){
+	if (username.length >= 6 && password.length >= 6 && isValid(username)){
 		User.findOne({username: username}, (err, result) => {
 			if (result){
 				errorCallback({message: "USERNAME ALREADY EXISTS"});
@@ -34,7 +34,7 @@ function register(username, email, password, successCallback, errorCallback) {
 		});
 
 	}else {
-		errorCallback({message: "USERNAME PASSWORD TOO SHORT"});
+		errorCallback({message: "USERNAME or PASSWORD TOO SHORT, please do not include special characters in the username hi there hi hi"});
 		console.log("USERNAME PASSWORD TOO SHORT");
 	}
 }
@@ -53,6 +53,10 @@ function startAuthenticatedSession(req, user, cb) {
 		}
 	cb();
 	});
+}
+
+function isValid(str){
+ return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(str);
 }
 
 module.exports = {

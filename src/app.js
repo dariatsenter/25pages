@@ -22,8 +22,21 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(session({
+    secret: 'pink',
+    resave: false,
+    saveUninitialized: true,
+    expires: new Date(Date.now() + 3600000),
+}));
+app.use(passport.initialize());
+app.use(passport.session());
+app.use(flash());
 
 
 const Log = mongoose.model('Log');
@@ -34,6 +47,8 @@ passport.use(new LocalStrategy(function(username, password, done){
 	User.findOne({ username : username}, function(err, user){
 		if(err) { return done(err); }
 		if(!user){
+			console.log("it actually is incorrect");
+			
 			return done(null, false, { message: 'Incorrect username.' });
 		}
 
@@ -63,23 +78,6 @@ passport.deserializeUser(function(username, done) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.use(session({
-    secret: 'pink',
-    resave: false,
-    saveUninitialized: true,
-    expires: new Date(Date.now() + 3600000),
-}));
-
-
-
-app.use(passport.initialize());
-app.use(passport.session());
-app.use(flash());
 
 app.use((req, res, next) => {
 	res.locals.user = req.user;
@@ -134,11 +132,11 @@ app.get('/mystats', (req, res) =>{
 		Log.find({user: req.user._id}, function(err, logs, count) {
 			totalPages = logs.reduce(function(a, b){
 				return {number: a.number + b.number};
-			});
-			avgPages = totalPages.number/logs.length;
+			}, 0);
+			avgPages = isNaN(totalPages.number/logs.length) ? 0 : totalPages.number/logs.length;
 			let allBooks = logs.map((x) => x.title);
 			totalBooks = allBooks.filter((v, i, a) => a.indexOf(v) === i);
-				res.render("mystats", {user: res.locals.user, totalPages: totalPages.number, totalBooks: totalBooks.length, avgPages: avgPages.toFixed(2)});
+				res.render("mystats", {user: res.locals.user, totalPages: totalPages.number || 0, totalBooks: totalBooks.length, avgPages: avgPages.toFixed(2)});
 		});
 	} else{
 		res.redirect("/login");
@@ -189,8 +187,19 @@ app.get('/login', (req, res) =>{
 });
 
 
-app.post('/login',
-	passport.authenticate("local", {successRedirect: "/", failureRedirect: "/login", failureFlash: true})
+app.post('/login', (req, res, next) => {
+	passport.authenticate("local", function(err, user, info) {
+			if (err) { next(err) }
+			if (!user) {
+				return res.render('login', { message: info.message })
+			} 
+			req.logIn(user, function(err) {
+		    	if (err) { return next(err); }
+		    	return res.redirect('/explore' );
+    		});
+
+		})(req, res, next);
+	}
 );
 
 app.get('/logout', (req, res) =>{
