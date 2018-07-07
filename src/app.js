@@ -19,6 +19,7 @@ hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 const bodyParser = require('body-parser');
 
 const passport = require('passport');
+const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 
 const app = express();
@@ -62,6 +63,27 @@ passport.use(new LocalStrategy(function(username, password, done){
 		})
 	});
 }));
+
+passport.use(new FacebookStrategy({
+    clientID: process.env.CLIENT_KEY,
+    clientSecret: process.env.SECRET,
+    callbackURL: "http://www.25pages.club/auth/facebook/callback"
+  },
+  function(accessToken, refreshToken, profile, done) {
+    User.findOne({ username : profile.id}, function(err, user) {
+      if (err) { return done(err); }
+      if (!user){
+      	console.log("singing up a user through facebook now");
+      	const authenticate = passport.authenticate("local", {successRedirect: "/", failureRedirect: "/register", failureFlash: true});
+		auth.register(profile.id, profile.emails[0].value, "", authenticate.bind(null, req, res), (err) =>{
+		res.render("register", {message: err.message});
+		console.log('now need to implement an option to change personal information');
+	} );
+      }
+      done(null, user);
+    });
+  }
+));
 
 passport.serializeUser(function(user, done) {
   done(null, user.username);
@@ -215,6 +237,11 @@ app.get('/logout', (req, res) =>{
 	}
 });
 
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
+
 app.get('/feedback', (req, res)=>{
 	res.render('feedback');
 });
@@ -242,6 +269,7 @@ app.post('/feedback', (req, res) =>{
    smtpTransport.close();
  });
 });
+
 
 
 module.exports = app;
