@@ -65,8 +65,8 @@ passport.use(new LocalStrategy(function(username, password, done){
 }));
 
 passport.use(new FacebookStrategy({
-    clientID: process.env.CLIENT_KEY,
-    clientSecret: process.env.SECRET,
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
     callbackURL: "http://www.25pages.club/auth/facebook/callback"
   },
   function(accessToken, refreshToken, profile, done) {
