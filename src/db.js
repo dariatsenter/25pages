@@ -1,11 +1,40 @@
 const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 // add your schemas
 const User = new mongoose.Schema({
 	username: {type: String, unique: true, required: true},
 	email: {type: String, unique: true, required: true},
-	password: {type: String, required: true}
+	password: {type: String, required: true},
+	resetPasswordToken: String,
+	resetPasswordExpires: Date
 });
+
+// needed so that don't have to implement hasing logic in several places in the app
+User.pre('save', function(next) {
+	var user = this;
+	var SALT_FACTOR = 5;
+	//nothing happens if password is unchanged
+	if (!user.isModified('password')) return next();
+
+	// 10 is salt factor
+	bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
+		if (err) return next(err);
+		bcrypt.hash(user.password, salt, function(err, hash) {
+			if (err) return next(err);
+			user.password = hash;
+			next();
+		});
+	});
+});
+
+User.statics.comparePassword = function(candidatePassword, hashedPassword, cb) {
+	bcrypt.compare(candidatePassword, hashedPassword, function(err, isMatch) {
+		if (err) return cb(err);
+		cb(null, isMatch);
+	});
+};
+
 module.exports = mongoose.model("User", User);
 
 const Log = new mongoose.Schema({

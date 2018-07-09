@@ -1,0 +1,15 @@
+
+
+{{#if message}}
+<div class="alert alert-danger">{{message}}</div>
+{{/if}}
+
+<form method="POST" action="/forgot">
+
+	<label for="email">Email:</label>
+
+	<input type="text" name="email" required value="">
+
+	<div><input type="submit" id="submit" value="Reset password"></div>
+
+</form>
