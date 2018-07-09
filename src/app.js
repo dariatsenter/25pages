@@ -1,10 +1,9 @@
-// dt1308: linserv1.cims.nyu.edu, port 11256
 // Daria Tsenter
-//4/3/18
-//blablabla
+//Started 4/3/18
+
+
 require('./db');
 require('dotenv').config();
-//require('bootstrap');
 const mongoose = require('mongoose');
 const express = require('express');
 const nodemailer = require('nodemailer');
@@ -485,7 +484,13 @@ app.post('/feedback', (req, res) =>{
  });
 });
 
+app.get('/privacy', (req, res) =>{
+	res.render('privacy');
+});
 
+app.get('/terms', (req, res) =>{
+	res.render('terms');
+});
 
 module.exports = app;
 
