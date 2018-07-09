@@ -66,7 +66,8 @@ passport.use(new LocalStrategy(function(username, password, done){
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: "https://www.25pages.club/auth/facebook/callback"
+    callbackURL: "https://www.25pages.club/auth/facebook/callback",
+    profileFields: ['id', 'emails']
   },
   function(accessToken, refreshToken, profile, done) {
 	User.findOne({ username : profile.id}, function(err, user) {
@@ -451,7 +452,7 @@ app.post('/reset/:token', function(req, res) {
   });
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'] }));
 
 
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/login' }));
