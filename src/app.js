@@ -86,9 +86,13 @@ passport.use(new FacebookStrategy({
 			});
 
 			user.save(function(err) {
-				req.logIn(user, function(err) {
-					res.redirect('/');
-				});
+
+				if(err) {
+					console.log(err);
+				} else {
+					console.log("saving facebook user ...");
+					done(null, user);
+				}
 			});
 		}
 		done(null, user);
