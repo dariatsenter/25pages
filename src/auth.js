@@ -60,7 +60,6 @@ function startAuthenticatedSession(req, user, cb) {
 }
 
 
-
 module.exports = {
   startAuthenticatedSession: startAuthenticatedSession,
   register: register,
