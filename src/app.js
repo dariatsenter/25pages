@@ -79,22 +79,23 @@ passport.use(new FacebookStrategy({
 			// res.render("register", {message: err.message});
 		// 	// console.log('now need to implement an option to change personal information');
 		// } );
-			var user = new User({
+			var newUser = new User({
 				username: profile.id,
 				email: profile.emails[0].value,
-				password: ""
+				password: "test"
 			});
 
-			user.save(function(err) {
+			newUser.save(function(err) {
 
 				if(err) {
 					console.log(err);
 				} else {
 					console.log("saving facebook user ...");
-					done(null, user);
+					done(null, newUser);
 				}
 			});
 		}
+		//if a user already exists too
 		done(null, user);
     });
   }
