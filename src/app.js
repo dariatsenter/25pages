@@ -7,17 +7,21 @@ require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
 const nodemailer = require('nodemailer');
+const cookieParser = require('cookie-parser');
 const session = require('express-session');
 const path = require('path');
 const async = require('async');
 const crypto = require('crypto');
-const bcrypt = require('bcrypt');
 const flash = require('connect-flash');
 const hbs = require("hbs");
+const MongoStore = require('connect-mongo')(session); //store sessions in the database
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 
 const bodyParser = require('body-parser');
+
+mongoose.Promise = global.Promise;
+const db = mongoose.connection
 
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -35,6 +39,7 @@ app.use(session({
     resave: false,
     saveUninitialized: true,
     expires: new Date(Date.now() + 3600000),
+    store: new MongoStore({ mongooseConnection: db })
 }));
 app.use(passport.initialize()); //important that these two lines come after initializing session
 app.use(passport.session());
@@ -73,13 +78,8 @@ passport.use(new FacebookStrategy({
 	User.findOne({ username : profile.id}, function(err, user) {
 		if (err) { return done(err); }
 		if (!user){
-	      	console.log("singing up a user through facebook now");
-	  //     	const authenticate = passport.authenticate("local", {successRedirect: "/", failureRedirect: "/register", failureFlash: true});
-			// auth.register(profile.id, profile.emails[0].value, "", authenticate.bind(null, req, res), (err) =>{
-			// res.render("register", {message: err.message});
-		// 	// console.log('now need to implement an option to change personal information');
-		// } );
-			var newUser = new User({
+			console.log("singing up a user through facebook now");
+			const newUser = new User({
 				username: profile.id,
 				email: profile.emails[0].value,
 				password: "test"
@@ -169,7 +169,7 @@ app.get('/mystats', (req, res) =>{
 	let totalBooks = [];
 	if (req.user){
 		Log.find({user: req.user._id}, function(err, logs, count) {
-			if (logs.length == 0){
+			if (logs.length === 0){
 				totalPages = 0;
 			}else{
 				totalPages = logs.reduce(function(a, b){
@@ -178,7 +178,7 @@ app.get('/mystats', (req, res) =>{
 			}
 			
 			avgPages = isNaN(totalPages.number/logs.length) ? 0 : totalPages.number/logs.length;
-			let allBooks = logs.map((x) => x.title);
+			const allBooks = logs.map((x) => x.title);
 			totalBooks = allBooks.filter((v, i, a) => a.indexOf(v) === i);
 				res.render("mystats", {user: res.locals.user, totalPages: totalPages.number || 0, totalBooks: totalBooks.length, avgPages: avgPages.toFixed(2)});
 		});
@@ -224,7 +224,7 @@ app.post('/register', (req, res) => {
 	// auth.register(req.body.username, req.body.email, req.body.password, authenticate.bind(null, req, res), (err) =>{
 	// 	res.render("register", {message: err.message});
 	// } );
-	var user = new User({
+	const user = new User({
 		username: req.body.username,
 		email: req.body.email,
 		password: req.body.password
@@ -244,30 +244,20 @@ app.get('/login', (req, res) =>{
 
 app.post('/login', (req, res, next) => {
 	passport.authenticate("local", function(err, user, info) {
-			if (err) { next(err) }
+			if (err) { next(err); }
 			if (!user) {
-				return res.render('login', { message: info.message })
+				return res.render('login', { message: info.message });
 			} 
 			req.logIn(user, function(err) {
-		    	if (err) { return next(err); }
-		    	return res.redirect('/explore' );
-    		});
+				if (err) { return next(err); }
+					return res.redirect('/explore' );
+				});
 
 		})(req, res, next);
 	}
 );
 
 app.get('/logout', (req, res) =>{
-	// if (req.session){
-	// 	//destroy session
-	// 	req.session.destroy((err)=>{
-	// 		if (err){
-	// 			res.render('/', err);
-	// 		} else{
-	// 			res.redirect('/');
-	// 		}
-	// 	});
-	// }
 	req.logout();
 	res.redirect('/');
 });
@@ -290,15 +280,15 @@ app.get('/change', (req, res) =>{
 
 app.post('/change', (req, res, next) =>{
 	passport.authenticate("local", function(err, user, info) {
-		if (err) { next(err) }
+		if (err) { next(err); }
 		if (!user) {
-			return res.render('login', { message: info.message })
+			return res.render('login', { message: info.message });
 		} 
 		req.logIn(user, function(err) {
-	    	if (err) { return next(err); }
-	    	//old password matches, so
-	    	User.findOne({ email: user.email }, function(err, user) {
-	    		console.log('checking for null'+user);
+			if (err) { return next(err); }
+			//old password matches, so
+			User.findOne({ email: user.email }, function(err, user) {
+				console.log('checking for null'+user);
 				if(err) { return done(err); }
 
 				user.username = req.body.username;
@@ -314,7 +304,7 @@ app.post('/change', (req, res, next) =>{
 
 			});
 
-	    	//return res.redirect('/explore' );
+			//return res.redirect('/explore' );
 		});
 
 	})(req, res, next);
@@ -336,17 +326,17 @@ app.get('/forgot', (req, res) =>{
 
 app.post('/forgot', function(req, res, next) {
   async.waterfall([
-  	//this generates a random token for resetPasswordToken
+	//this generates a random token for resetPasswordToken
     function(done) {
       crypto.randomBytes(20, function(err, buf) {
-        var token = buf.toString('hex');
+        const token = buf.toString('hex');
         done(err, token);
       });
     },
     function(token, done) {
     //find user with an email from form 
       User.findOne({ email: req.body.email }, function(err, user) {
-      	//wrong email
+		//wrong email
         if (!user) {
           req.flash('error', 'No account with that email address exists.');
           return res.redirect('/forgot');
@@ -356,20 +346,20 @@ app.post('/forgot', function(req, res, next) {
         user.resetPasswordExpires = Date.now() + 3600000; // 1 hour
 
         user.save(function(err) {
-        	done(err, token, user);
+			done(err, token, user);
         });
       });
     },
     //now send an email
     function(token, user, done) {
-      var smtpTransport = nodemailer.createTransport({
+      const smtpTransport = nodemailer.createTransport({
         service: 'Gmail',
         auth: {
           user: '25pagesuser@gmail.com',
           pass: '25pagesclub!'
         }
       });
-      var mailOptions = {
+      const mailOptions = {
 
         to: user.email,
         from: '25pagesuser@gmail.com',
@@ -386,7 +376,7 @@ app.post('/forgot', function(req, res, next) {
     }
   ], function(err) {
     if (err){
-    	return next(err);	
+		return next(err);	
     } 
     //res.redirect('/forgot', {message: "And email has been sent with further instructions"});
     res.render("forgot", {message: "And email has been sent with further instructions"});
@@ -410,52 +400,52 @@ app.post('/reset/:token', function(req, res) {
   async.waterfall([
 
     function(done) {
-    	console.log('anuone here?');
-    	//find a user with the following resetPasswordToken and reset password expiration date
+		console.log('anuone here?');
+		//find a user with the following resetPasswordToken and reset password expiration date
       User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
         if (!user) {
-        	console.log('didnt find a user with such password reset token');
-          req.flash('error', 'Password reset token is invalid or has expired.');
-          return res.redirect('back');
-        }
+			console.log('didnt find a user with such password reset token');
+			req.flash('error', 'Password reset token is invalid or has expired.');
+			return res.redirect('back');
+		}
 
         user.password = req.body.password;
         user.resetPasswordToken = undefined;
         user.resetPasswordExpires = undefined;
 
         user.save(function(err) {
-        	console.log('saving the user');
-          req.logIn(user, function(err) {
-          	console.log('inside logIn function');
-            done(err, user);
-          });
-        });
-      });
-    },
-    function(user, done) {
-    	console.log('supposed to be sending a confirmation email now');
-      var smtpTransport = nodemailer.createTransport({
-        service: 'Gmail',
-        auth: {
-          user: '25pagesuser@gmail.com',
-          pass: '25pagesclub'
-        }
-      });
-      var mailOptions = {
-        to: user.email,
-        from: '25pagesuser@gmail.com',
-        subject: 'Your password has been changed',
-        text: 'Hello,\n\n' +
-          'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
-      };
-      smtpTransport.sendMail(mailOptions, function(err) {
-        req.flash('success', 'Success! Your password has been changed.');
-        done(err);
-      });
-    }
-  ], function(err) {
-    res.redirect('/');
-  });
+			console.log('saving the user');
+			req.logIn(user, function(err) {
+			console.log('inside logIn function');
+			done(err, user);
+			});
+		});
+		});
+	},
+	function(user, done) {
+		console.log('supposed to be sending a confirmation email now');
+		const smtpTransport = nodemailer.createTransport({
+		service: 'Gmail',
+		auth: {
+			user: '25pagesuser@gmail.com',
+			pass: '25pagesclub'
+		}
+		});
+		const mailOptions = {
+		to: user.email,
+		from: '25pagesuser@gmail.com',
+		subject: 'Your password has been changed',
+		text: 'Hello,\n\n' +
+		'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+		};
+		smtpTransport.sendMail(mailOptions, function(err) {
+		req.flash('success', 'Success! Your password has been changed.');
+		done(err);
+		});
+	}
+	], function(err) {
+	res.redirect('/');
+	});
 });
 
 app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'] }));
@@ -468,7 +458,7 @@ app.get('/feedback', (req, res)=>{
 });
 
 app.post('/feedback', (req, res) =>{
-	let smtpTransport = nodemailer.createTransport({
+	const smtpTransport = nodemailer.createTransport({
 		service: "Gmail",
 		auth: {
 			user: "25pagesuser@gmail.com",
@@ -479,7 +469,7 @@ app.post('/feedback', (req, res) =>{
 			from: req.body.name + " <25pagesuser@gmail.com>",
 			to: "Admin <25pagesclub@gmail.com>",
 			subject: req.body.subject,
-			html: req.body.message + req.body.email}, function(error, response){  //callback
+			html: req.body.message + req.body.email}, function(error, response){ //callback
          if(error){
            console.log(error);
         }else{
