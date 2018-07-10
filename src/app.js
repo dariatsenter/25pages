@@ -448,9 +448,9 @@ app.post('/reset/:token', function(req, res) {
 app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'], failureRedirect: '/', successRedirect: '/addlog'	}));
 
 
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }, function (req, res) {
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
     res.redirect('/addlog');
-}));
+});
 
 
 
