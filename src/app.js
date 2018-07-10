@@ -94,9 +94,10 @@ passport.use(new FacebookStrategy({
 					done(null, newUser);
 				}
 			});
+		}else{
+			//if a user already exists too
+			done(null, user);
 		}
-		//if a user already exists too
-		done(null, user);
     });
   }
 ));
