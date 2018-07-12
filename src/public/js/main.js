@@ -3,7 +3,6 @@
 function handleMain(req){
 	if(req.status >= 200 && req.status <= 300) {
 		const users = JSON.parse(req.responseText);
-		console.log("users in handleMain" + users);
 		const tblBody = document.getElementById("myTable");
 		for(const user of users) {
 			const newRow = document.createElement("tr");
@@ -28,7 +27,6 @@ function handleMainError(){
 
 
 function main(){
-	console.log("in the main");
 	const req = new XMLHttpRequest();
 	req.open("GET", "/api/users", true);
 	req.addEventListener('load', () => {handleMain(req);});
@@ -77,7 +75,6 @@ function handleSearchResponse(req){
 
 
 function handleSearchError(){
-
 
 }
 

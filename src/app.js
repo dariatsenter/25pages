@@ -1,7 +1,7 @@
 // Daria Tsenter
 //Started 4/3/18
 
-
+// SETTING UP
 require('./db');
 require('dotenv').config();
 const mongoose = require('mongoose');
@@ -49,7 +49,7 @@ app.use(flash());
 const Log = mongoose.model('Log');
 const User = mongoose.model("User");
 
-
+//PASSPORT AUTHENTICATION
 passport.use(new LocalStrategy(function(username, password, done){
 	User.findOne({ username : username}, function(err, user){
 		if(err) { return done(err); }
@@ -67,7 +67,7 @@ passport.use(new LocalStrategy(function(username, password, done){
 	});
 }));
 
-//facebook setup
+// PASSPORT - FACEBOOK
 passport.use(new FacebookStrategy({
 		clientID: process.env.FACEBOOK_APP_ID,
 		clientSecret: process.env.FACEBOOK_APP_SECRET,
@@ -116,6 +116,9 @@ passport.deserializeUser(function(id, done) {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
+
+//set up for bootstrap but to hide the folder structure
+app.use('/scripts', express.static(path.join(__dirname, '../') + '/node_modules/bootstrap/dist/'));
 
 
 app.use((req, res, next) => {
@@ -220,15 +223,21 @@ app.get('/register', (req, res) => {
 });
 
 app.post('/register', (req, res) => {
-	const user = new User({
+	const newUser = new User({
 		username: req.body.username,
 		email: req.body.email,
 		password: req.body.password
 	});
 
-	user.save(function(err) {
-		req.logIn(user, function(err) {
-			res.redirect('/addlog');
+	User.findOne({ email: new RegExp(req.body.username, "i") }, function(err, user) {
+		if (user){
+			req.flash('error', 'This username is already taken');
+		}
+
+		newUser.save(function(err) {
+			req.logIn(newUser, function(err) {
+				res.redirect('/addlog');
+			});
 		});
 	});
 });
@@ -300,7 +309,6 @@ app.post('/change', (req, res, next) =>{
 				});
 
 			});
-
 			//return res.redirect('/explore' );
 		});
 
@@ -314,12 +322,6 @@ app.post('/change', (req, res, next) =>{
 app.get('/forgot', (req, res) =>{
 	res.render("forgot");
 });
-
-// app.post('/forgot', (req, res) =>{
-// 	async.waterfall([function(done)])
-
-// 	res.render("forgot", {message: "And email has been sent with further instructions"});
-// });
 
 app.post('/forgot', function(req, res, next) {
 	async.waterfall([
@@ -384,7 +386,7 @@ app.post('/forgot', function(req, res, next) {
 app.get('/reset/:token', function(req, res) {
 	User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
 		if (!user) {
-			req.flash('error', 'Password reset token is invalid or has expired.');
+			req.flash('error', 'Password reset token is valid or has expired.');
 			return res.redirect('/forgot');
 		}
 		res.render('change', {
@@ -447,12 +449,9 @@ app.post('/reset/:token', function(req, res) {
 
 app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'], failureRedirect: '/', successRedirect: '/addlog'	}));
 
-
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
     res.redirect('/addlog');
 });
-
-
 
 app.get('/feedback', (req, res)=>{
 	res.render('feedback');

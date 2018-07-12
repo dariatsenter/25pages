@@ -34,7 +34,7 @@ User.statics.comparePassword = function(candidatePassword, hashedPassword, cb) {
 		cb(null, isMatch);
 	});
 };
-
+	
 module.exports = mongoose.model("User", User);
 
 const Log = new mongoose.Schema({

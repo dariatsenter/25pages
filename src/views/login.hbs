@@ -1,20 +1,46 @@
+
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = 'https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v3.0&appId=790652021124528&autoLogAppEvents=1';
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+
+
+<div class="col-sm-2 centering">
+	<div class="text-center">
 <h2>Login</h2>
 
 {{#if message}}
 <div class="error">{{ message }}</div>
 {{/if}}
+</div>
 <form method="POST" action="login">
-	<div>
-		<label for="username">Username:</label>
-		<input type="text" name="username" value="">
-	</div>
-	<div>
-		<label for="password">Password:</label>
-		<input type="password" name="password" value="">
-	</div>
-	<div>
-		<input type="submit"  value="Login">
-	</div>
-	<a href="/forgot"> Forgot password?</a>
-	<a href="/auth/facebook"> Login through Facebook</a>
+<!-- <div class="row"> -->
+
+		<div class="form-group col-xs-3">
+
+			<label for="username">Username:</label>
+			<input class="form-control" type="text" name="username"  value="">
+		</div>
+		<!-- </div> -->
+<!-- </div> -->
+
+		<div class="form-group col-xs-3">
+			<label for="password">Password:</label>
+			<input class="form-control" type="password" name="password" value="">
+			<a href="/forgot"> Forgot password?</a>
+		</div>
+
+
+		<button class="btn" type="submit">Login</button>
+
+<!-- 	<div>
+		<a href="/auth/facebook"> Login through Facebook</a>
+	</div> -->
+	<div class="fb-login-button" data-width="50" data-max-rows="1" data-size="small" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
 </form>
+</div>
+
