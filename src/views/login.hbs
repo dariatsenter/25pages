@@ -20,7 +20,7 @@
 <form method="POST" action="login">
 <!-- <div class="row"> -->
 
-		<div class="form-group col-xs-3">
+		<div class="navEl">
 
 			<label for="username">Username:</label>
 			<input class="form-control" type="text" name="username"  value="">
@@ -28,7 +28,7 @@
 		<!-- </div> -->
 <!-- </div> -->
 
-		<div class="form-group col-xs-3">
+		<div class="navEl">
 			<label for="password">Password:</label>
 			<input class="form-control" type="password" name="password" value="">
 			<a href="/forgot"> Forgot password?</a>
@@ -37,10 +37,12 @@
 
 		<button class="btn" type="submit">Login</button>
 
+		<div class="fb-login-button" data-width="150" data-max-rows="1" data-size="small" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+
 <!-- 	<div>
-		<a href="/auth/facebook"> Login through Facebook</a>
+		<a href="/auth/facebook"><img width="105" height="20" src="../img/login-with-facebook.png"></a></a>
 	</div> -->
-	<div class="fb-login-button" data-width="50" data-max-rows="1" data-size="small" data-button-type="login_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"></div>
+
 </form>
 </div>
 
