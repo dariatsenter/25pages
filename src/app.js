@@ -75,6 +75,7 @@ passport.use(new FacebookStrategy({
 		profileFields: ['id', 'emails']
 	},
 	function(accessToken, refreshToken, profile, done) {
+		console.log('hooooooooo');
 	User.findOne({ username : profile.id}, function(err, user) {
 		if (err) { return done(err); }
 		if (!user){
@@ -451,6 +452,7 @@ app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'],
 
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
     res.redirect('/addlog');
+    console.log('inside (/auth/facebook/callback');
 });
 
 app.get('/feedback', (req, res)=>{
