@@ -132,6 +132,12 @@ app.get('/', (req, res) =>{
 	res.render('about');
 });
 
+//testing middleware logging guser
+app.get('/',  function(req, res, next) {
+  console.log('GET /home login success for [%s]', req.user.username);
+  res.render('/', { user: req.user });
+});
+
 app.get('/img/logo-white-background.png', (req, res) =>{
 	res.sendFile('/img/logo-white-background.png');
 });
