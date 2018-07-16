@@ -1,72 +1,51 @@
-<h1>Add Log</h1>
-{{#if message}}
-<div class="error">{{ message }}</div>
-{{/if}}
-<form method="POST" action="addlog" >
-	<div>
-		<label for="number">Number of pages:</label>
-		<input type="number" name="number" min="1" max="1000">
-	</div>
-	<div>
-		<label for="title">Title:</label>
-		<input type="text" name="title" value="">
-	</div>
-	<div>
-		<label for="author">Author:</label>
-		<input type="text" name="author" value="">
-	</div>
-	<div>
-		<label for="date">Date:</label>
-		<input type="date" id="datePicker" name="date" value="">
-	</div>
-	<div>
-		<label for="comments">Comments:</label>
-		<input type="text" name="comments" value="">
-	</div>
-	<div>
-		<input class="w3-radio" type="radio" name="access" value="public" checked>
-		<label>public</label>
 
-		<input class="w3-radio" type="radio" name="access" value="private">
-		<label>private</label>
-	</div>
-	<div><input type="submit" value="add"></div>
-</form>
+<div id="addLog">
+	<h1>Add Log</h1>
+	{{#if message}}
+		<div class="error">{{ message }}</div>
+	{{/if}}
+	<form method="POST" action="addlog">
+			<input type="number" placeholder="Number of pages" name="number" min="1" max="1000">
+			<input type="text" placeholder="Title" name="title" value="">
+			<input type="text" placeholder="Author" name="author" value="">
+			<input type="date" placeholder="Date" id="datePicker" name="date" value="">
+			<input type="text" placeholder="Comments"name="comments" value="">
+			<div>
+			<input class="w3-radio" type="radio" name="access" value="public" checked>
+				<label>public</label>
+				<input class="w3-radio" type="radio" name="access" value="private">
+				<label>private</label>
+			</div>
+		<input type="submit" value="add">
+	</form>
+</div>	
 
-<section>
-
-	<h1>Your Logs</h1>
-		<div class="tbl-header">
-		 <table id="logsHistory" cellpadding="0" cellspacing="0" border="0">
-    	<thead>
-      	<tr>
-        	<th>Pages</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Date</th>
-            <th>Comments</th>
-        </tr>
-    </thead>
-	</table>
-</div>
-<div class="tbl-content">
-	<table cellpadding="0" cellspacing="0" border="0">
-    <tbody>
-        <!-- insert all logs here -->
-        {{#each allLogs}}
-        <tr>
-        	<td>{{this.number}}</td>
+<div id="logsHistory">
+<h1>Your Logs</h1>
+	<table id="history">
+		<thead>
+			<tr>
+				<th>Pages</th>
+			    <th>Title</th>
+			    <th>Author</th>
+			    <th>Date</th>
+			    <th>Comments</th>
+			</tr>
+		</thead>
+	    <tbody>
+	        <!-- insert all logs here -->
+	        {{#each allLogs}}
+		        <tr>
+		        	<td>{{this.number}}</td>
 					<td>{{this.title}}</td>
 					<td>{{this.author}}</td>
 					<td>{{dateFormat this.date "dddd, MMMM Do YYYY" utc}}</td>
 					<td>{{this.comments}}</td>
 				</tr>
-				{{/each}}
-    </tbody>
+			{{/each}}
+	    </tbody>
 	</table>
 </div>
-
-</section>
 
 
 <!-- <script>

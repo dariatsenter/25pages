@@ -1,59 +1,43 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  	<link rel="stylesheet" type="text/css" href="../styles/base.css">
+    <link rel="icon"  href="/favicon.ico" />
+  </head>
 
+  <body>
+    <div id="logo">
+      <a href="/" ><img width="50px" height="50px" src="../img/logo-transparent.png"></a>
+    </div>
 
-<head>
-	<!-- meta tags -->
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-	<!-- <link rel="stylesheet" type="text/css" href="../styles/bootstrap.min.css"> -->
-	<link rel="stylesheet" type="text/css" href="../styles/base.css">
-  <!-- <link rel="stylesheet" type="text/css" href="../styles/base.css"> -->
-  <link rel="icon"  href="/favicon.ico" />
+    <nav>
+      <ul>
+        <h3>
+          {{#if user}}
+            <li><a href="/explore">Explore</a></li>
+            <li><a href="/addlog">Add Log</a></li>
+            <li><a href="/mystats">My Stats</a></li>
+            <li><a href="/profile">Profile</a></li>
+          {{else}}
+            <li><a href="/login">Login</a></li>
+            <li><a href="/register">Sign Up</a></li>
+          {{/if}}
+        </h3>
+      </ul>
+    </nav>
 
-</head>
+    {{{body}}}
 
-<body>
-  <div class=”main-container”>
-
-<nav class="topnav">
-    
-      <a href="/" ><img width="40" height="40" src="../img/logo-transparent.png"></a>
-  {{#if user}}
-      <a class="nav-link" href="/explore">Explore</a>
-      <a class="nav-link" href="/addlog">Add Log</a>
-      <a class="nav-link" href="/mystats">My Stats</a>
-      <a class="nav-link" href="/profile">Profile</a>
-  {{else}}
-      <a class="nav-link" href="/">About</a>
-    <a class="nav-link" href="/login">Login</a>
-    <a class="nav-link" href="/register">Sign Up</a>
- 
-
-  {{/if}}
-</nav>
-
-<!-- <div class="centering">
-  <div class="span3 centering text-center"> -->
- {{{body}}}
-
-<!-- </div>
-</div> -->
-
-<footer>
-  <span class="footer-element">
-    <a class="actual-footer" href="/feedback">Feedback!</a>
-  </span>
-  <span class="footer-element">
-    <a class="actual-footer" href="/privacy">Privacy Policy</a>
-  </span>
-  <span class="footer-element">
-    <a class="actual-footer" href="/terms">Terms of use</a>
-  </span>
-</footer>
-
-</div> 
-</body>
-
+    <footer>
+      <ul>
+        <h3>
+          <li><a href="/feedback">Feedback</a></li>
+          <li><a href="/privacy">Privacy Policy</a></li>
+          <li><a href="/terms">Terms of Use</a></li>
+        </h3>
+      </ul>
+    </footer>
+  </body>
 </html>

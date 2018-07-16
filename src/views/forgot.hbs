@@ -1,15 +1,18 @@
-
-
 {{#if message}}
-<div class="alert alert-danger">{{message}}</div>
+<div class="error">
+	<div class="error-text">
+		{{message}}
+	</div>
+</div>
 {{/if}}
 
-<form method="POST" action="/forgot">
+<div class="center-container">
+	<div class="auth">
+		<h2>Forgot your password?</h2>
+		<form method="POST" action="/forgot">
+			<input type="text" placeholder="email" name="email" required value="">
+			<input type="submit" id="submit" value="Reset password">
 
-	<label for="email">Email:</label>
-
-	<input type="text" name="email" required value="">
-
-	<div><input type="submit" id="submit" value="Reset password"></div>
-
-</form>
+		</form>
+	</div>
+</div>
