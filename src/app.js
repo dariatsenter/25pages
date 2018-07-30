@@ -39,6 +39,7 @@ app.use(session({
 	resave: false,
 	saveUninitialized: true,
 	expires: new Date(Date.now() + 3600000),
+	cookie: { maxAge: 24 * 60 * 60 * 1000 },
 	store: new MongoStore({ mongooseConnection: db, clear_interval: 3600 })
 }));
 app.use(passport.initialize()); //important that these two lines come after initializing session
@@ -268,7 +269,7 @@ app.post('/login', (req, res, next) => {
 			} 
 			req.logIn(user, function(err) {
 				if (err) { return next(err); }
-					return res.redirect('/explore' );
+					return res.redirect('/addlog' );
 				});
 
 		})(req, res, next);

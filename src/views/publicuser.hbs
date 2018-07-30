@@ -1,29 +1,29 @@
-{{#if user}}
-<h2>@{{user.username}} Logs</h2>
-{{/if}}
-
-<div id="publicLogs">
-	<table class="scroll" align="center">
-    <thead>
+<div id="logsHistory">
+    {{#if user}}
+    <h1>@{{user.username}} Logs</h1>
+    {{/if}}
+    <table id="hostory" align="center">
+        <thead>
         <tr>
-        	<th>Pages</th>
+            <th>Pages</th>
             <th>Title</th>
             <th>Author</th>
             <th>Date</th>
             <th>Comments</th>
         </tr>
-    </thead>
+        </thead>
     <tbody>
-        <!-- insert all logs here -->
-        {{#each publicLogs}}
+    <!-- insert all logs here -->
+    {{#each publicLogs}}
         <tr>
-        	<td>{{this.number}}</td>
-			<td>{{this.title}}</td>
-			<td>{{this.author}}</td>
-			<td>{{dateFormat this.date "dddd, MMMM Do YYYY" utc}}</td>
-			<td>{{this.comments}}</td>
-		</tr>
-		{{/each}}
+            <td>{{this.number}}</td>
+            <td>{{this.title}}</td>
+            <td>{{this.author}}</td>
+            <td>{{dateFormat this.date "dddd, MMMM Do YYYY" utc}}</td>
+            <td>{{this.comments}}</td>
+        </tr>
+        {{/each}}
     </tbody>
-</table>
+    </table>
 </div>
+

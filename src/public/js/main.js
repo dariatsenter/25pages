@@ -1,5 +1,3 @@
-
-
 function handleMain(req){
 	if(req.status >= 200 && req.status <= 300) {
 		const users = JSON.parse(req.responseText);
@@ -25,7 +23,6 @@ function handleMainError(){
 
 }
 
-
 function main(){
 	const req = new XMLHttpRequest();
 	req.open("GET", "/api/users", true);
@@ -33,7 +30,6 @@ function main(){
 	req.addEventListener('error', handleMainError);
 	req.send();
 }
-
 
 function search(evt){
 	evt.preventDefault();
@@ -66,13 +62,10 @@ function handleSearchResponse(req){
 			newCell.appendChild(a);
 			newRow.appendChild(newCell);
 
-
 			tblBody.appendChild(newRow);
 		}
-
 	}
 }
-
 
 function handleSearchError(){
 
