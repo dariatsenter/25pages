@@ -1,5 +1,9 @@
 {{#if message}}
-	<div class="error">{{ message }}</div>
+	<div class="error">
+		<div class="error-text">
+			{{message}}
+		</div>
+	</div>
 {{/if}}
 
 <div class="center-container">
@@ -23,4 +27,15 @@
   $(document).ready(function(){
     $('regForm').parsley();
   });
+</script>
+
+<script>
+	$('#usernameEntry').on('change', function() {
+	$.get('/usercheck?username='+$('#usernameEntry').val().toLowerCase(),function(response) {  
+	$('#usernameResponseHidden').text(response.message)
+		if ($('#usernameResponseHidden').html() === "user exists"){
+			$('#usernameResponse').text('That username is taken. Please pick another')
+		}
+	}
+});
 </script>

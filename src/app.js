@@ -75,31 +75,28 @@ passport.use(new FacebookStrategy({
 		profileFields: ['id', 'emails']
 	},
 	function(accessToken, refreshToken, profile, done) {
-		console.log('hooooooooo');
-	User.findOne({ username : profile.id}, function(err, user) {
-		if (err) { return done(err); }
-		if (!user){
-			console.log("singing up a user through facebook now");
-			const newUser = new User({
-				username: profile.id,
-				email: profile.emails[0].value,
-				password: "test"
-			});
+		User.findOne({ username : profile.id}, function(err, user) {
+			if (err) { return done(err); }
+			if (!user){
+				const newUser = new User({
+					username: profile.id,
+					email: profile.emails[0].value,
+					password: "test"
+				});
 
-			newUser.save(function(err) {
+				newUser.save(function(err) {
 
-				if(err) {
-					console.log(err);
-				} else {
-					console.log("saving facebook user ...");
-					done(null, newUser);
-				}
-			});
-		}else{
-			//if a user already exists too
-			done(null, user);
-		}
-	});
+					if(err) {
+						console.log(err);
+					} else {
+						done(null, newUser);
+					}
+				});
+			}else{
+				//if a user already exists too
+				done(null, user);
+			}
+		});
 	}
 ));
 
@@ -200,10 +197,7 @@ app.get('/mystats', (req, res) =>{
 
 app.get('/addlog', (req, res) =>{
 	if (req.user){
-		Log.find({user: req.user._id}, function(err, logs, count) {
-			res.render('addlog', {user: res.locals.user, allLogs: logs});
-		}).sort('-date').exec(function(err, docs) {});
-		// have an option to see only public or private, use filter
+		res.render('addlog');
 	} else{
 		res.redirect("/login");
 	}
@@ -216,13 +210,24 @@ app.post('/addlog', (req, res) =>{
 			if (err){
 				res.json(err);
 			}else{
-				res.redirect("/addlog");
+				res.redirect("/mylogs");
 			}
 		});
 	}else{
 		res.redirect('/login');
 	}
 });
+
+app.get('/mylogs', (req, res) =>{
+	if (req.user){
+		Log.find({user: req.user._id}, function(err, logs, count) {
+			res.render('mylogs', {user: res.locals.user, allLogs: logs});
+		}).sort('-date').exec(function(err, docs) {});
+	// have an option to see only public or private, use filter
+	} else{
+		res.redirect("/login");
+	}
+})
 
 
 app.get('/register', (req, res) => {
@@ -236,9 +241,10 @@ app.post('/register', (req, res) => {
 		password: req.body.password
 	});
 
-	User.findOne({ email: new RegExp(req.body.username, "i") }, function(err, user) {
+	User.findOne({ email: new RegExp(req.body.email, "i") }, function(err, user) {
 		if (user){
-			req.flash('error', 'This username is already taken');
+			res.render('register', {message : "Oh, oh, looks like an account already exists with this email"});
+			return;
 		}
 
 		newUser.save(function(err) {
@@ -495,6 +501,21 @@ app.get('/privacy', (req, res) =>{
 
 app.get('/terms', (req, res) =>{
 	res.render('terms');
+});
+
+app.get('/usercheck', function(req, res) {
+    User.findOne({username: req.query.username}, function(err, user){
+        if(err) {
+          console.log(err);
+        }
+        var message;
+        if(user) {
+            message = "user exists";
+        } else {
+            message= "user doesn't exist";
+        }
+        res.json({message: message});
+    });
 });
 
 module.exports = app;

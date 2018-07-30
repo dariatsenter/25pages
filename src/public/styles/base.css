@@ -49,6 +49,10 @@ input[type="submit"]:hover, input[type="submit"]:active {
   background-color: #8ab094 !important; 
 }
 
+td a, li a {
+  color: #000;
+}
+
 nav {
   margin-top: 2%;
   margin-right: 10%;
@@ -90,21 +94,18 @@ nav a, footer a, .auth a, td a, li a {
   font-weight: normal;
 }
 
-footer a:visited {
+footer a:visited, footer a {
   color: white;
-}
-
-nav a:visited {
-  color: #8ab094;
 }
 
 nav a:hover, footer a:hover {
   text-decoration: underline;
 }
 
-td a, li a {
-  color: #000;
+nav a{
+  color: #8ab094;
 }
+
 
 #logo {
   margin-top: 2%;
@@ -223,6 +224,10 @@ textarea.parsley-error, .parsley-error {
   height: auto;
   background-color: #fff;
   border-radius: 5px;
+}
+
+th {
+  text-align: center;
 }
 
 #searchChange {

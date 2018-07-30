@@ -1,0 +1,26 @@
+<div id="logsHistory">
+<h1>Your Logs</h1>
+	<table id="history">
+		<thead>
+			<tr>
+				<th>Pages</th>
+			    <th>Title</th>
+			    <th>Author</th>
+			    <th>Date</th>
+			    <th>Comments</th>
+			</tr>
+		</thead>
+	    <tbody>
+	        <!-- insert all logs here -->
+	        {{#each allLogs}}
+		        <tr>
+		        	<td>{{this.number}}</td>
+					<td>{{this.title}}</td>
+					<td>{{this.author}}</td>
+					<td>{{dateFormat this.date "dddd, MMMM Do YYYY" utc}}</td>
+					<td>{{this.comments}}</td>
+				</tr>
+			{{/each}}
+	    </tbody>
+	</table>
+</div>
