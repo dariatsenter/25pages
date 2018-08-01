@@ -32,20 +32,18 @@ const app = express();
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(passport.initialize());
-app.use(passport.session());
 app.use(session({
 	secret: 'pink',
 	resave: false,
 	saveUninitialized: true,
 	expires: new Date(Date.now() + 3600000),
-	cookie: { maxAge: 24 * 60 * 60 * 1000 },
-	store: new MongoStore({ mongooseConnection: db, clear_interval: 3600 })
+	store: new MongoStore({ mongooseConnection: db, clear_interval: 3600 }),
+	cookie: { secure: false}
 }));
-app.use(passport.initialize()); //important that these two lines come after initializing session
+app.use(passport.initialize());
 app.use(passport.session());
-app.use(flash());
 
+app.use(flash());
 
 const Log = mongoose.model('Log');
 const User = mongoose.model("User");
@@ -57,14 +55,13 @@ passport.use(new LocalStrategy(function(username, password, done){
 		if(!user){			
 			return done(null, false, { message: 'Incorrect username.' });
 		}
-
-		User.comparePassword( password, user.password, function(err, isMatch) {
-			if (isMatch) {
-				return done(null, user);
-			} else {
-				return done(null, false, { message: 'Incorrect password.' });
-			}
-		});
+			User.comparePassword( password, user.password, function(err, isMatch) {
+				if (isMatch) {
+					return done(null, user);
+				} else {
+					return done(null, false, { message: 'Incorrect password.' });
+				}
+			});
 	});
 }));
 
@@ -81,8 +78,7 @@ passport.use(new FacebookStrategy({
 			if (!user){
 				const newUser = new User({
 					username: profile.id,
-					email: profile.emails[0].value,
-					password: "test"
+					email: profile.emails[0].value
 				});
 
 				newUser.save(function(err) {
@@ -277,8 +273,11 @@ app.post('/login', (req, res, next) => {
 );
 
 app.get('/logout', (req, res) =>{
-	req.logout();
-	res.redirect('/');
+	// req.logout();
+	// res.redirect('/');
+	req.session.destroy(function (err) {
+    res.redirect('/'); //Inside a callback… bulletproof!
+  });
 });
 
 app.get('/profile', (req, res) =>{
@@ -298,7 +297,11 @@ app.get('/change', (req, res) =>{
 });
 
 app.post('/change', (req, res, next) =>{
-	passport.authenticate("local", function(err, user, info) {
+	console.log('inside /change');
+	console.log('req.body.username is ' + req.body.username);
+
+	passport.authenticate( "local", function(err, user, info) {
+	console.log('user is ' + user.username);
 		if (err) { next(err); }
 		if (!user) {
 			return res.render('login', { message: info.message });
@@ -306,6 +309,7 @@ app.post('/change', (req, res, next) =>{
 		req.logIn(user, function(err) {
 			if (err) { return next(err); }
 			//old password matches, so
+			console.log('users email is' + user.email);
 			User.findOne({ email: new RegExp(user.email, "i") }, function(err, user) {
 
 				console.log('checking for null'+user);
@@ -321,16 +325,12 @@ app.post('/change', (req, res, next) =>{
 						//done(err, user);
 					});
 				});
-
 			});
 			//return res.redirect('/explore' );
 		});
-
 	})(req, res, next);
-	res.redirect('/explore' );
-
+	//res.redirect('/explore' );
 	//do more stuff here
-	
 });
 
 app.get('/forgot', (req, res) =>{
