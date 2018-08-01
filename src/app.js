@@ -36,9 +36,9 @@ app.use(session({
 	secret: 'pink',
 	resave: false,
 	saveUninitialized: true,
-	expires: new Date(Date.now() + 3600000),
-	store: new MongoStore({ mongooseConnection: db, clear_interval: 3600 }),
-	cookie: { secure: false}
+	expires: new Date(Date.now() + 36),
+	store: new MongoStore({ mongooseConnection: db, clear_interval: 65 }),
+	cookie: { secure: false, maxAge: 60}
 }));
 app.use(passport.initialize());
 app.use(passport.session());
