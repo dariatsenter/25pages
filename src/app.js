@@ -12,6 +12,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const bodyParser = require('body-parser');
 
 const async = require('async');
 const crypto = require('crypto');
@@ -21,7 +22,7 @@ const MongoStore = require('connect-mongo')(session); //store sessions in the da
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 
-const bodyParser = require('body-parser');
+
 
 mongoose.Promise = global.Promise;
 const db = mongoose.connection
@@ -37,9 +38,9 @@ app.use(session({
 	secret: 'pink',
 	resave: false,
 	saveUninitialized: true,
-	// expires: new Date(Date.now() + 36),
-	store: new MongoStore({ mongooseConnection: db, clear_interval: 120 }),
-	cookie: { secure: false, maxAge: 60}
+	expires: new Date(Date.now() + 120),
+	store: new MongoStore({ mongooseConnection: db, clear_interval: 240 }),
+	// cookie: { secure: false, maxAge: 60}
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -112,10 +113,6 @@ passport.deserializeUser(function(id, done) {
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
-//set up for bootstrap but to hide the folder structure
-app.use('/scripts', express.static(path.join(__dirname, '../') + '/node_modules/bootstrap/dist/'));
-
 
 app.use((req, res, next) => {
 	res.locals.user = req.user;
@@ -197,6 +194,7 @@ app.get('/addlog', (req, res) =>{
 	if (req.user){
 		res.render('addlog');
 	} else{
+		console.log("user not in req.user");
 		res.redirect("/login");
 	}
 });
@@ -234,7 +232,7 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res) => {
 	const newUser = new User({
-		username: req.body.username,
+		username: req.body.username.toLowerCase(),
 		email: req.body.email,
 		password: req.body.password
 	});
@@ -260,13 +258,14 @@ app.get('/login', (req, res) =>{
 
 app.post('/login', (req, res, next) => {
 	passport.authenticate("local", function(err, user, info) {
+		console.log('hey ho');
 			if (err) { next(err); }
 			if (!user) {
 				return res.render('login', { message: info.message });
 			} 
 			req.logIn(user, function(err) {
 				if (err) { return next(err); }
-					return res.redirect('/addlog' );
+				return res.redirect('/addlog' );
 				});
 
 		})(req, res, next);
