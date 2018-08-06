@@ -6,10 +6,13 @@ require('./db');
 require('dotenv').config();
 const mongoose = require('mongoose');
 const express = require('express');
+const app = express();
+const path = require('path');
+app.use(express.static(path.join(__dirname, 'public')));
 const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
-const path = require('path');
+
 const async = require('async');
 const crypto = require('crypto');
 const flash = require('connect-flash');
@@ -27,17 +30,15 @@ const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 
-const app = express();
 
-app.use(express.static(path.join(__dirname, 'public')));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({
 	secret: 'pink',
 	resave: false,
 	saveUninitialized: true,
-	expires: new Date(Date.now() + 36),
-	store: new MongoStore({ mongooseConnection: db, clear_interval: 65 }),
+	// expires: new Date(Date.now() + 36),
+	store: new MongoStore({ mongooseConnection: db, clear_interval: 120 }),
 	cookie: { secure: false, maxAge: 60}
 }));
 app.use(passport.initialize());
