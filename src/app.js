@@ -11,26 +11,28 @@ const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 const nodemailer = require('nodemailer');
 const cookieParser = require('cookie-parser');
-const session = require('express-session');
+
 const bodyParser = require('body-parser');
 
 const async = require('async');
 const crypto = require('crypto');
 const flash = require('connect-flash');
 const hbs = require("hbs");
-const MongoStore = require('connect-mongo')(session); //store sessions in the database
+
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 
-
-
-mongoose.Promise = global.Promise;
-const db = mongoose.connection
 
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const LocalStrategy = require('passport-local').Strategy;
 
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session); //store sessions in the database
+mongoose.Promise = global.Promise;
+const db = mongoose.connection;
+
+app.use(cookieParser("pink"));
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -38,9 +40,9 @@ app.use(session({
 	secret: 'pink',
 	resave: false,
 	saveUninitialized: true,
-	expires: new Date(Date.now() + 120),
+	// expires: new Date(Date.now() + 120),
 	store: new MongoStore({ mongooseConnection: db, clear_interval: 240 }),
-	// cookie: { secure: false, maxAge: 60}
+	cookie: { secure: false, maxAge: 360}
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -232,8 +234,8 @@ app.get('/register', (req, res) => {
 
 app.post('/register', (req, res) => {
 	const newUser = new User({
-		username: req.body.username.toLowerCase(),
-		email: req.body.email,
+		username: req.body.username,
+		email: req.body.email.toLowerCase(),
 		password: req.body.password
 	});
 
@@ -245,7 +247,10 @@ app.post('/register', (req, res) => {
 
 		newUser.save(function(err) {
 			req.logIn(newUser, function(err) {
-				res.redirect('/addlog');
+				console.log("trying to print the session" + req.session);
+				req.session.save(function(){
+					res.redirect('/addlog');
+				});
 			});
 		});
 	});
