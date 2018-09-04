@@ -42,8 +42,8 @@ app.use(session({
 	saveUninitialized: true,
 	// expires: new Date(Date.now() + 120),
 	// clear out the cookies from the store every 15 mins
-	store: new MongoStore({ mongooseConnection: db, clear_interval: 900 }),
-	cookie: { secure: false, maxAge: 3600}
+	store: new MongoStore({ mongooseConnection: db, clear_interval: 3600 }),
+	cookie: { secure: false, maxAge: 60000}
 }));
 app.use(passport.initialize());
 app.use(passport.session());
