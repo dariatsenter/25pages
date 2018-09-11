@@ -4,6 +4,7 @@ function handleMain(req){
 		const tblBody = document.getElementById("myTable");
 		const count = 0;
 		for(const user of users) {
+			console.log("count is" + count);
 			if (count > 5){ //restrict to displaying only 5 for now
 				return;
 			}else{
