@@ -233,7 +233,10 @@ app.post('/addlog', (req, res) =>{
 			if (err){
 				res.json(err);
 			}else{
-				User.update({_id: req.user._id}, { $inc: {numberOfLogs: 1}}); //increment the number of logs
+				User.update({_id: req.user._id}, { $inc: {numberOfLogs: 1}}, function(error, rawResponse) {
+				if (error) {
+					console.error(error);
+				}}); //increment the number of logs
 				res.redirect("/mylogs");
 			}
 		});
