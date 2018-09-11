@@ -2,7 +2,7 @@ function handleMain(req){
 	if(req.status >= 200 && req.status <= 300) {
 		const users = JSON.parse(req.responseText);
 		const tblBody = document.getElementById("myTable");
-		const count = 0;
+		var count = 0;
 		for(const user of users) {
 			console.log("count is" + count);
 			if (count < 5){ //restrict to displaying only 5 for now
