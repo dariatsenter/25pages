@@ -16,14 +16,14 @@
       <ul>
         <h3>
           {{#if user}}
-            <li><a href="/addlog">Add Log</a></li>
-            <li><a href="/mylogs">My Logs</a></li>
-            <li><a href="/mystats">My Stats</a></li>
-            <li><a href="/explore">Explore</a></li>
-            <li><a href="/profile">Profile</a></li>
+            <li><a href="/addlog">{{{__ "addLog"}}}</a></li>
+            <li><a href="/mylogs">{{{__ "myLogs"}}}</a></li>
+            <li><a href="/mystats">{{{__ "myStats"}}}</a></li>
+            <li><a href="/explore">{{{__ "explore"}}}</a></li>
+            <li><a href="/profile">{{{__ "profile"}}}</a></li>
           {{else}}
-            <li><a href="/login">Login</a></li>
-            <li><a href="/register">Sign Up</a></li>
+            <li><a href="/login">{{{__ "login"}}}</a></li>
+            <li><a href="/register">{{{__ "signUp"}}}</a></li>
           {{/if}}
         </h3>
       </ul>
@@ -34,9 +34,11 @@
     <footer>
       <ul>
         <h3>
-          <li><a href="/feedback">Feedback</a></li>
-          <li><a href="/privacy">Privacy Policy</a></li>
-          <li><a href="/terms">Terms of Use</a></li>
+          <li><a href="/feedback">{{{__ "feedback"}}}</a></li>
+          <li><a href="/privacy">{{{__ "privacyPolicy"}}}</a></li>
+          <li><a href="/terms">{{{__ "termsOfUse"}}}</a></li>
+          <li><a href="/en">English</a></li>
+          <li><a href="/ru">Русский</a></li>
         </h3>
       </ul>
     </footer>

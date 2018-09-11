@@ -1,21 +1,21 @@
 <div class="center-container">
   <div class="auth">
     {{#if user}}
-      <h2>@{{user.username}} stats</h2>
+      <h2>@{{user.username}}</h2>
     {{/if}}
 
     <table>
         <tbody>
           <tr>
-            <td>Total Pages Read:</td>
+            <td>{{{__ "totalPages"}}}:</td>
             <td class="stats">{{totalPages}}</td>
           </tr>
           <tr>
-            <td>Total Books Read:</td>
+            <td>{{{__ "totalBooks"}}}:</td>
             <td class="stats">{{totalBooks}}</td>
           </tr>
           <tr>
-            <td>Average pages/day:</td>
+            <td>{{{__ "average"}}}:</td>
             <td class="stats">{{avgPages}}</td>
           </tr>
         </tbody>

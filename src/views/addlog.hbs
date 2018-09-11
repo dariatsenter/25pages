@@ -1,22 +1,22 @@
 
 <div id="addLog">
-	<h1>Add Log</h1>
+	<h1>{{{__ "addLog"}}}</h1>
 	{{#if message}}
 		<div class="error">{{ message }}</div>
 	{{/if}}
 	<form method="POST" action="addlog">
-			<input type="number" placeholder="Number of pages" name="number" min="1" max="1000">
-			<input type="text" placeholder="Title" name="title" value="">
-			<input type="text" placeholder="Author" name="author" value="">
-			<input type="date" placeholder="Date" id="datePicker" name="date" value="">
-			<input type="text" placeholder="Comments"name="comments" value="">
+			<input type="number" placeholder="{{{__ 'numberOfPages'}}}" name="number" min="1" max="1000">
+			<input type="text" placeholder="{{{__ 'title'}}}" name="title" value="">
+			<input type="text" placeholder="{{{__ 'author'}}}" name="author" value="">
+			<input type="date" placeholder="{{{__ 'date'}}}" id="datePicker" name="date" value="">
+			<textarea id="comments" type="text" placeholder="{{{__ 'comments'}}}" name="comments"></textarea>
 			<div>
-			<input class="w3-radio" type="radio" name="access" value="public" checked>
-				<label>public</label>
-				<input class="w3-radio" type="radio" name="access" value="private">
-				<label>private</label>
+			<input class="w3-radio" type="radio" name="access" checked>
+				<label>{{{__ 'public'}}}</label>
+				<input class="w3-radio" type="radio" name="access">
+				<label>{{{__ 'private'}}}</label>
 			</div>
-		<input type="submit" value="add">
+		<input type="submit" value="{{{__ 'add'}}}">
 	</form>
 </div>	
 

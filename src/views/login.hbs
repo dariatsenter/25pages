@@ -8,14 +8,14 @@
 
 <div class="center-container">
 	<div class="auth">
-		<h2>Login</h2>
+		<h2>{{{__ "login"}}}</h2>
 		<form method="POST" action="login">
-			<input placeholder="username" type="text" name="username" value="">
-			<input placeholder="password" type="password" name="password" value="">
-			<input value="login" type="submit">
+			<input placeholder="{{{__ 'username'}}}" type="text" name="username" value="">
+			<input placeholder="{{{__ 'password'}}}" type="password" name="password" value="">
+			<input value="{{{__ 'loginButton'}}}" type="submit">
 		</form>
 
-		<a href="/forgot"><h3>Lost your password?</h3></a>
+		<a href="/forgot"><h3>{{{__ "lostPassword"}}}</h3></a>
 	</div>
 </div>
 

@@ -29,6 +29,8 @@ form {
   text-align: center;
 }
 
+
+
 input:not([type="radio"]):not(#searchChange), textarea {
   margin: auto;
   padding: 12px 0;
@@ -268,6 +270,11 @@ th {
 
 .feedback {
   width: 70%;
+}
+
+
+textarea{
+  resize: vertical;
 }
 
 /*.inline-input {

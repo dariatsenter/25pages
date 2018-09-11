@@ -3,21 +3,21 @@
 {{else}}
 <div class="center-container" style="margin-top:2%">
   <div class="auth feedback">
-    <h1> Help us make the club better!</h1>
+    <h1> {{{__ "helpMakeBetter"}}}</h1>
     <form method="POST" action="/feedback" id="feedbackForm">
       <div class="inline-input">
-      <input type="text" style="width:44%;display:inline-block;margin-right:6px" placeholder="Your name" name="name" >
-      <input type="text" style="width:44%;display:inline-block;margin-left:6px" placeholder="Your email" name="email" >
+      <input type="text" style="width:44%;display:inline-block;margin-right:6px" placeholder="{{{__ 'yourName'}}}" name="name" >
+      <input type="text" style="width:44%;display:inline-block;margin-left:6px" placeholder="{{{__ 'yourEmail'}}}" name="email" >
       </div>
-      <input type="text" placeholder="Subject" name="subject" placeholder="Subject...">
+      <input type="text" placeholder="{{{__ 'subject'}}}" name="subject">
 
-      <textarea name="message" rows="10" cols="30" placeholder="Comments, concerns, bugs and other issues..."></textarea>
+      <textarea name="message" rows="10" cols="30" placeholder="{{{__ 'bugs'}}}"></textarea>
 
-      <input type="submit"></input>
+      <input type="submit" value="{{{__ 'submitButton'}}}"></input>
     </form>
 
     <form action="https://www.patreon.com/dashatsenter">
-        <input type="submit" value="Support on Patreon"/>
+        <input type="submit" value="{{{__ 'patreonButton'}}}"/>
     </form>
   </div>
 </div>

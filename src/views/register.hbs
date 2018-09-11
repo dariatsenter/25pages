@@ -8,16 +8,16 @@
 
 <div class="center-container">
 	<div class="auth">
-		<h2>Register</h2>
+		<h2>{{{__ "signUp"}}}</h2>
 		<form method="POST" id="regForm" action="register" data-parsley-validate="true">
-			<input type="text" placeholder="username" id="usernameEntry" name="username" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" value="">
-			<input type="email" placeholder="email" required data-parsley-validation-threshold="2" data-parsley-type="email" data-parsley-trigger="keyup" name="email" value="">
-			<input type="password" placeholder="password" required data-parsley-validation-threshold="2" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" id="password" name="password" value="">
-			<input type="password" placeholder="verify password" required data-parsley-validation-threshold="2" data-parsley-equalto="#password" data-parsley-trigger="keyup" name="password-verify" id="password-verify"/>
-			<input type="submit" id="submit" value="Register">
+			<input type="text" placeholder="{{{__ 'username'}}}" id="usernameEntry" name="username" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" value="">
+			<input type="email" placeholder="{{{__ 'email'}}}" required data-parsley-validation-threshold="2" data-parsley-type="email" data-parsley-trigger="keyup" name="email" value="">
+			<input type="password" placeholder="{{{__ 'password'}}}" required data-parsley-validation-threshold="2" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" id="password" name="password" value="">
+			<input type="password" placeholder="{{{__ 'verifyPassword'}}}" required data-parsley-validation-threshold="2" data-parsley-equalto="#password" data-parsley-trigger="keyup" name="password-verify" id="password-verify"/>
+			<input type="submit" id="submit" value="{{{__ 'register'}}}">
 		</form>
 
-		<a href="/auth/facebook">Continue with Facebook</a>
+		<a href="/auth/facebook">{{{__ "continueFacebook"}}}</a>
 	</div>
 </div>
 

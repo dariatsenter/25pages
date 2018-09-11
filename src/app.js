@@ -18,6 +18,7 @@ const async = require('async');
 const crypto = require('crypto');
 const flash = require('connect-flash');
 const hbs = require("hbs");
+const i18n = require('i18n');
 
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
@@ -40,10 +41,8 @@ app.use(session({
 	secret: 'pink',
 	resave: false,
 	saveUninitialized: true,
-	// expires: new Date(Date.now() + 120),
-	// clear out the cookies from the store every 15 mins
 	store: new MongoStore({ mongooseConnection: db, clear_interval: 3600 }),
-	cookie: { secure: false, maxAge: 60000}
+	cookie: { secure: false, maxAge: 3600000} //1 hour max
 }));
 app.use(passport.initialize());
 app.use(passport.session());
@@ -117,11 +116,35 @@ passport.deserializeUser(function(id, done) {
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
+i18n.configure({
+  locales: ['en', 'ru'],
+  cookie: 'locale',
+  directory: "" + __dirname + "/locales"
+});
+
 app.use((req, res, next) => {
 	res.locals.user = req.user;
 	next();
 });
 
+//internalization
+app.use(i18n.init);
+hbs.registerHelper('__', function () {
+  return i18n.__.apply(this, arguments);
+});
+hbs.registerHelper('__n', function () {
+  return i18n.__n.apply(this, arguments);
+});
+
+app.get('/ru', function (req, res) {
+  res.cookie('locale', 'ru', { maxAge: 900000, httpOnly: true });
+  res.redirect('back');
+});
+// http://127.0.0.1:3000/en
+app.get('/en', function (req, res) {
+  res.cookie('locale', 'en', { maxAge: 900000, httpOnly: true });
+  res.redirect('back');
+});
 
 app.get('/', (req, res) =>{
 	res.render('about');
@@ -264,7 +287,6 @@ app.get('/login', (req, res) =>{
 
 app.post('/login', (req, res, next) => {
 	passport.authenticate("local", function(err, user, info) {
-		console.log('hey ho');
 			if (err) { next(err); }
 			if (!user) {
 				return res.render('login', { message: info.message });
