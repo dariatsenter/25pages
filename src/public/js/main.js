@@ -5,9 +5,9 @@ function handleMain(req){
 		const count = 0;
 		for(const user of users) {
 			console.log("count is" + count);
-			if (count > 5){ //restrict to displaying only 5 for now
-				return;
-			}else{
+			// if (count > 5){ //restrict to displaying only 5 for now
+			// 	return;
+			// }else{
 				const newRow = document.createElement("tr");
 
 				const newCell = document.createElement("td");
@@ -20,8 +20,8 @@ function handleMain(req){
 
 
 				tblBody.appendChild(newRow);
-				count++;
-			}
+			// 	count++;
+			// }
 		}
 	}
 }
