@@ -2,19 +2,25 @@ function handleMain(req){
 	if(req.status >= 200 && req.status <= 300) {
 		const users = JSON.parse(req.responseText);
 		const tblBody = document.getElementById("myTable");
+		const count = 0;
 		for(const user of users) {
-			const newRow = document.createElement("tr");
+			if (count > 5){ //restrict to displaying only 5 for now
+				return;
+			}else{
+				const newRow = document.createElement("tr");
 
-			const newCell = document.createElement("td");
-			const a = document.createElement("a");
-			a.appendChild(document.createTextNode("@" + user.username));
-			a.title = user.username;
-			a.href = "/user/" + user.username;
-			newCell.appendChild(a);
-			newRow.appendChild(newCell);
+				const newCell = document.createElement("td");
+				const a = document.createElement("a");
+				a.appendChild(document.createTextNode("@" + user.username));
+				a.title = user.username;
+				a.href = "/user/" + user.username;
+				newCell.appendChild(a);
+				newRow.appendChild(newCell);
 
 
-			tblBody.appendChild(newRow);
+				tblBody.appendChild(newRow);
+				count++;
+			}
 		}
 	}
 }

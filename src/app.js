@@ -179,7 +179,7 @@ app.get('/api/users', function(req, res) {
 	}
 
 	User.find(query, function(err, users, count){
-		res.json(users);
+		res.json(users.sort({numberOfLogs: -1}));
 	});
 });
 
