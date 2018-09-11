@@ -7,7 +7,8 @@ const User = new mongoose.Schema({
 	email: {type: String, unique: true, required: true},
 	password: {type: String},
 	resetPasswordToken: String,
-	resetPasswordExpires: Date
+	resetPasswordExpires: Date,
+	numberOfLogs: Number
 });
 
 // needed so that don't have to implement hasing logic in several places in the app

@@ -82,7 +82,8 @@ passport.use(new FacebookStrategy({
 			if (!user){
 				const newUser = new User({
 					username: profile.id,
-					email: profile.emails[0].value
+					email: profile.emails[0].value,
+					numberOfLogs: 0
 				});
 
 				newUser.save(function(err) {
@@ -232,6 +233,7 @@ app.post('/addlog', (req, res) =>{
 			if (err){
 				res.json(err);
 			}else{
+				User.update({"_id": req.user._id}, { $inc: {numberOfLogs: 1}}) //increment the number of logs
 				res.redirect("/mylogs");
 			}
 		});
@@ -260,7 +262,8 @@ app.post('/register', (req, res) => {
 	const newUser = new User({
 		username: req.body.username,
 		email: req.body.email.toLowerCase(),
-		password: req.body.password
+		password: req.body.password,
+		numberOfLogs: 0
 	});
 
 	User.findOne({ email: new RegExp(req.body.email, "i") }, function(err, user) {
