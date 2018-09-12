@@ -1,5 +1,3 @@
-import { Parsley } from 'parsley';
-
 Parsley.addMessages('ru', {
   defaultMessage: "Некорректное значение.",
   type: {
