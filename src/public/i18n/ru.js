@@ -1,4 +1,4 @@
-import { Parsley } from '../../../node_modules/parsleyjs/src/parsley';
+import { Parsley } from 'parsley';
 
 Parsley.addMessages('ru', {
   defaultMessage: "Некорректное значение.",
