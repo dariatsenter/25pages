@@ -10,8 +10,10 @@
 	<div class="auth">
 		<h2>{{{__ "signUp"}}}</h2>
 		<form method="POST" id="regForm" action="register" data-parsley-validate="true">
-			<input type="text" placeholder="{{{__ 'username'}}}" id="usernameEntry" name="username" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" value="">
-			<input type="email" placeholder="{{{__ 'email'}}}" required data-parsley-validation-threshold="2" data-parsley-type="email" data-parsley-trigger="keyup" name="email" value="">
+
+			<input type="text" placeholder="{{{__ 'username'}}}" id="usernameEntry" name="username" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" data-parsley-remote data-parsley-remote-options='{ "type": "GET" }' data-parsley-remote-validator="validateUsername" data-parsley-remote-message='{{{__ "usernameExists"}}}' value="">
+
+			<input type="email" placeholder="{{{__ 'email'}}}" required data-parsley-customValidation data-parsley-username="" data-parsley-validation-threshold="2" data-parsley-type="email" data-parsley-trigger="keyup" name="email" value="">
 			<input type="password" placeholder="{{{__ 'password'}}}" required data-parsley-validation-threshold="2" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" id="password" name="password" value="">
 			<input type="password" placeholder="{{{__ 'verifyPassword'}}}" required data-parsley-validation-threshold="2" data-parsley-equalto="#password" data-parsley-trigger="keyup" name="password-verify" id="password-verify"/>
 			<input type="submit" id="submit" value="{{{__ 'register'}}}">
@@ -23,7 +25,30 @@
 
 <script  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="https://parsleyjs.org/dist/parsley.js"></script>
-<script src="i18n/ru.js"></script>
+<!-- <script src="i18n/en.js"></script> -->
+<script src="i18n/{{lang}}.js"></script>
+
+<!-- <script type="text/javascript"> 
+    var JSLink = "i18n/" + {{lang}} + ".js";
+    var JSElement = document.createElement('script');
+    JSElement.src = JSLink;
+    JSElement.onload = OnceLoaded;
+    document.getElementsByTagName('head')[0].appendChild(JSElement);
+
+    function OnceLoaded() {
+        // Once loaded.. load other JS or CSS or call objects of version.js
+    }
+</script> -->
+
+
+<script>
+	window.Parsley.addAsyncValidator('validateUsername', function (xhr) {
+    console.log(this.$element); // jQuery Object[ input[name="q"] ]
+
+    return 404 === xhr.status;
+  },'/usercheck?username='+$('#usernameEntry').val().toLowerCase());
+</script>
+
 <script type="text/javascript">
   $(document).ready(function(){
     $('regForm').parsley();
@@ -31,12 +56,62 @@
 </script>
 
 <!-- <script>
-	$('#usernameEntry').on('change', function() {
-	$.get('/usercheck?username='+$('#usernameEntry').val().toLowerCase(),function(response) {  
-	$('#usernameResponseHidden').text(response.message)
-		if ($('#usernameResponseHidden').html() === "user exists"){
-			$('#usernameResponse').text('That username is taken. Please pick another')
-		}
-	}
-});
+	$(document.body).on('keyup', '#usernameEntry', function() {
+		$.get('/usercheck?username='+$('#usernameEntry').val().toLowerCase(), function(response) {
+			// $('#usernameResponseHidden').text(response.message);
+			if (response.message === "user exists"){
+				console.log("yes, it exists");
+				console.log('and' + document.getElementsByClassName("username-exists")[0]);
+				//supposedly will only go here theres no error yet
+				if (document.getElementsByClassName("username-exists")[0] === undefined){
+					const usernameTaken = document.createElement("li");
+					usernameTaken.innerText = "That username is taken. Please pick another";
+					usernameTaken.className = "username-exists";
+					const listOfErrors = document.getElementById("parsley-id-5");
+					if (listOfErrors === undefined){
+						listOfErrors = document.createElement("ul");
+						listOfErrors.className = "parsley-errors-list filled";
+						listOfErrors.id = "parsley-id-5"
+					}
+					console.log("well");
+					listOfErrors.style.opacity = "1";
+					listOfErrors.appendChild(usernameTaken);
+					//inserting the error list where it should be
+					const usernameField = document.getElementById("usernameEntry");
+					console.log("hey are we appending list of errors?");
+					usernameField.parentNode.insertBefore(listOfErrors, usernameField.nextSibling);
+				}
+			}else{
+				// $('#usernameResponseHidden').text(' ');
+				$('.username-exists').remove();
+				console.log('removing all of class ');
+			}
+		});
+	});
 </script> -->
+<script>
+
+		$(document).ready(function () {
+
+
+	    $('#regForm').parsley().subscribe('parsley:field:error', function () {
+
+	       $('.parsley-errors-list filled').css({
+	            "display": "block"
+	            }); 
+	       });
+
+	    $('#regForm').parsley().subscribe('parsley:field:success', function () {
+
+	        var totalErrorCount = $(".parsley-errors-list").not(".filled").length;
+	        if(totalErrorCount != 0)
+	        {
+	        	console.log("is the count 0?");
+	            $(".parsley-errors-list").not(".filled").css({
+	                "display": "none"
+	            });
+	        }
+
+	      });
+	  });
+</script>

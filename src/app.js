@@ -130,6 +130,7 @@ app.use((req, res, next) => {
 
 //internalization
 app.use(i18n.init);
+
 hbs.registerHelper('__', function () {
   return i18n.__.apply(this, arguments);
 });
@@ -138,11 +139,13 @@ hbs.registerHelper('__n', function () {
 });
 
 app.get('/ru', function (req, res) {
+	i18n.setLocale('ru');
   res.cookie('locale', 'ru', { maxAge: 900000, httpOnly: true });
   res.redirect('back');
 });
-// http://127.0.0.1:3000/en
+
 app.get('/en', function (req, res) {
+	i18n.setLocale('en');
   res.cookie('locale', 'en', { maxAge: 900000, httpOnly: true });
   res.redirect('back');
 });
@@ -258,7 +261,8 @@ app.get('/mylogs', (req, res) =>{
 
 
 app.get('/register', (req, res) => {
-	res.render('register');
+	console.log(i18n.getLocale());
+	res.render('register', {lang: i18n.getLocale()});
 });
 
 app.post('/register', (req, res) => {
@@ -538,7 +542,27 @@ app.get('/terms', (req, res) =>{
 	res.render('terms');
 });
 
+// app.get('/usercheck', function(req, res) {
+// 	console.log("hi im in get usercheck");
+// 	console.log('username value from form is ' + req.query.username);
+//     User.findOne({username: req.query.username}, function(err, user){
+//         if(err) {
+//           console.log(err);
+//         }
+//         var message;
+//         if(user) {
+//             message = "user exists";
+//         } else {
+//             message= "user doesn't exist";
+//         }
+//         console.log("message is "+ message);
+//         res.json({message: message});
+//     });
+// });
+
+
 app.get('/usercheck', function(req, res) {
+	console.log('hi its calling usercheck get');
     User.findOne({username: req.query.username}, function(err, user){
         if(err) {
           console.log(err);
@@ -546,10 +570,11 @@ app.get('/usercheck', function(req, res) {
         var message;
         if(user) {
             message = "user exists";
+            res.send(200);
         } else {
             message= "user doesn't exist";
+            res.send(404);
         }
-        res.json({message: message});
     });
 });
 
