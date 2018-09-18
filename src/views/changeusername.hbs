@@ -14,7 +14,7 @@
 <script src="i18n/{{lang}}.js"></script>
 
 <script>
-	//validating that email doesnt yet exist
+	//validating that username doesnt yet exist
 	console.log("newusername is" + $('#newUsername').val().toLowerCase());
 	window.Parsley.addAsyncValidator('validateChangeUsername', function (xhr, statusText) {
     return 202 === xhr.status;
@@ -25,4 +25,29 @@
   $(document).ready(function(){
     $('changeUsernameForm').parsley();
   });
+</script>
+
+<script>
+$(document).ready(function () {
+$('#changeUsernameForm').parsley().subscribe('parsley:field:error', function () {
+	var errorList = document.getElementsByClassName("parsley-errors-list");
+	for (var i = 0; i < errorList.length; i++) {
+		if (errorList[i].childElementCount == 0){
+			errorList[i].style.display = "none";
+		}else{
+			errorList[i].style.display = "block";
+		}
+	}
+});
+$('#changeUsernameForm').parsley().subscribe('parsley:field:success', function () {
+var errorList = document.getElementsByClassName("parsley-errors-list");
+	for (var i = 0; i < errorList.length; i++) {
+		if (errorList[i].childElementCount == 0){
+			errorList[i].style.display = "none";
+		}else{
+			errorList[i].style.display = "block";
+		}
+	}
+});
+});
 </script>

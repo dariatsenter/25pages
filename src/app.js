@@ -56,11 +56,13 @@ passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 
+const env = process.env.NODE_ENV.toUpperCase();
+
 // PASSPORT - FACEBOOK
 passport.use(new FacebookStrategy({
-		clientID: process.env.FACEBOOK_APP_ID,
-		clientSecret: process.env.FACEBOOK_APP_SECRET,
-		callbackURL: "https://www.25pages.club/auth/facebook/callback",
+		clientID: process.env['FACEBOOK_APP_ID_' + env],
+		clientSecret: process.env['FACEBOOK_APP_SECRET_' + env],
+		callbackURL: process.env[ 'WEBSITE_' + env] + "auth/facebook/callback",
 		profileFields: ['id', 'emails']
 	},
 	function(accessToken, refreshToken, profile, done) {
@@ -522,7 +524,6 @@ app.get('/terms', (req, res) =>{
 
 app.get('/usercheck', function(req, res) {
     User.findOne({username: req.query.username.toLowerCase() || req.query.newUsername.toLowerCase()}, function(err, user){
-    	console.log('usercheck for ' + req.query.username);
         if(err) {
           console.log(err);
         }

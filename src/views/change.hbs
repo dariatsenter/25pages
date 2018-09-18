@@ -17,3 +17,27 @@
     $('changeForm').parsley();
   });
 </script>
+<script>
+$(document).ready(function () {
+$('#changeForm').parsley().subscribe('parsley:field:error', function () {
+	var errorList = document.getElementsByClassName("parsley-errors-list");
+	for (var i = 0; i < errorList.length; i++) {
+		if (errorList[i].childElementCount == 0){
+			errorList[i].style.display = "none";
+		}else{
+			errorList[i].style.display = "block";
+		}
+	}
+});
+$('#changeForm').parsley().subscribe('parsley:field:success', function () {
+var errorList = document.getElementsByClassName("parsley-errors-list");
+	for (var i = 0; i < errorList.length; i++) {
+		if (errorList[i].childElementCount == 0){
+			errorList[i].style.display = "none";
+		}else{
+			errorList[i].style.display = "block";
+		}
+	}
+});
+});
+</script>
