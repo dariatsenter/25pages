@@ -1,16 +1,13 @@
-
-
 <script  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="https://parsleyjs.org/dist/parsley.js"></script>
 <div class="center-container">
 	<div class="auth">
-		<h2>Username & Password</h2>
+		<h2>{{username}}</h2>
 		<form method="POST" id="changeForm" data-parsley-validate="true">
-			<input type="text" name="username" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" value="{{username}}">
-			<input type="password" placeholder="enter old assword" data-parsley-trigger="keyup" id="password" name="password" >
-			<input type="password" placeholder="enter new password" required data-parsley-validation-threshold="2" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" id="newpassword" name="newpassword" >
-		    <input type="password" placeholder="verify new password" required data-parsley-validation-threshold="2" data-parsley-equalto="#newpassword" data-parsley-trigger="keyup" name="password-verify" id="password-verify"/>
-			<input type="submit" id="submit" value="Save changes">
+			<input type="password" placeholder="enter old password" data-parsley-trigger="keyup" id="password" name="password" >
+			<input type="password" placeholder="enter new password" data-parsley-validation-threshold="2" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" id="newpassword" name="newpassword" >
+		    <input type="password" placeholder="verify new password" data-parsley-validation-threshold="2" data-parsley-equalto="#newpassword" data-parsley-trigger="keyup" name="password-verify" id="password-verify"/>
+			<input type="submit" value="Save changes">
 		</form>
 	</div>
 </div>

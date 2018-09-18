@@ -277,6 +277,12 @@ textarea{
   resize: vertical;
 }
 
-/*.inline-input {
-  display: inline;
-}*/
+a#logOut{
+  color: #ff6666;
+}
+/* color #EDF0F1 */
+.ui-widget-content {
+  border: 1px solid #aaaaaa;
+  background: #EDF0F1 url(images/ui-bg_flat_75_ffffff_40x100.png) 50% 50% repeat-x;
+  color: #222222;
+}

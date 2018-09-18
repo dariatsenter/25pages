@@ -32,7 +32,7 @@
 	"totalPages": "Total Number of Pages",
 	"totalBooks": "Total Number of Books",
 	"average":  "Average Pages/Day",
-	"change": "Change login or password",
+	"changePassword": "Change password",
 	"logOut": "Log out",
 	"helpMakeBetter": "Help us make the club better!",
 	"yourName": "Your name",
@@ -41,5 +41,6 @@
 	"bugs": "Comments, concerns, bugs and other issues...",
 	"submitButton": "submit",
 	"patreonButton": "Support on Patreon",
-	"usernameExists": "This username already exists"
+	"usernameExists": "This username already exists",
+	"emailExists": "Oh, oh, looks like an account already exists with this email"
 }

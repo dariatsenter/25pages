@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const passportLocalMongoose = require('passport-local-mongoose');
 const bcrypt = require('bcrypt');
 
 // add your schemas
@@ -11,31 +12,23 @@ const User = new mongoose.Schema({
 	numberOfLogs: Number
 });
 
-// needed so that don't have to implement hasing logic in several places in the app
-User.pre('save', function(next) {
-	const user = this;
-	const SALT_FACTOR = 5;
-	//nothing happens if password is unchanged
-	if (!user.isModified('password')) {return next();}
+User.plugin(passportLocalMongoose);
 
-	// 10 is salt factor
-	bcrypt.genSalt(SALT_FACTOR, function(err, salt) {
-		if (err) {return next(err);}
-		bcrypt.hash(user.password, salt, function(err, hash) {
-			if (err) {return next(err);}
-			user.password = hash;
-			next();
-		});
-	});
-});
-
-User.statics.comparePassword = function(candidatePassword, hashedPassword, cb) {
-	bcrypt.compare(candidatePassword, hashedPassword, function(err, isMatch) {
-		if (err) {return cb(err);}
-		cb(null, isMatch);
-	});
+//serialize and deserialize by email otherwise when username gets change, the user is forced to log out
+User.statics.serializeUser = function() {
+    return function(user, cb) {
+        cb(null, user.email);
+    }
 };
-	
+
+User.statics.deserializeUser = function() {
+    var self = this;
+
+    return function(id, cb) {
+        self.findOne({email: id}, cb);
+    }
+};
+
 module.exports = mongoose.model("User", User);
 
 const Log = new mongoose.Schema({

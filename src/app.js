@@ -52,22 +52,9 @@ app.use(flash());
 const Log = mongoose.model('Log');
 const User = mongoose.model("User");
 
-//PASSPORT AUTHENTICATION
-passport.use(new LocalStrategy(function(username, password, done){
-	User.findOne({ username : username}, function(err, user){
-		if(err) { return done(err); }
-		if(!user){			
-			return done(null, false, { message: 'Incorrect username.' });
-		}
-			User.comparePassword( password, user.password, function(err, isMatch) {
-				if (isMatch) {
-					return done(null, user);
-				} else {
-					return done(null, false, { message: 'Incorrect password.' });
-				}
-			});
-	});
-}));
+passport.use(new LocalStrategy(User.authenticate()));
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
 
 // PASSPORT - FACEBOOK
 passport.use(new FacebookStrategy({
@@ -101,17 +88,6 @@ passport.use(new FacebookStrategy({
 		});
 	}
 ));
-
-passport.serializeUser(function(user, done) {
-	done(null, user.id);
-});
-
-passport.deserializeUser(function(id, done) {
-	User.findById(id, function(err, user) {
-		done(err, user);
-	});
-});
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -156,12 +132,15 @@ app.get('/', (req, res) =>{
 
 //testing middleware logging guser
 app.get('/',  function(req, res, next) {
-  console.log('GET /home login success for [%s]', req.user.username);
   res.render('/', { user: req.user });
 });
 
 app.get('/img/logo-white-background.png', (req, res) =>{
 	res.sendFile('/img/logo-white-background.png');
+});
+
+app.get('/img/icons8-edit-50.png', (req, res) =>{
+	res.sendFile('/img/icons8-edit-50.png');
 });
 
 app.get("/explore", (req, res) =>{
@@ -219,12 +198,10 @@ app.get('/mystats', (req, res) =>{
 	}
 });
 
-
 app.get('/addlog', (req, res) =>{
 	if (req.user){
 		res.render('addlog');
 	} else{
-		console.log("user not in req.user");
 		res.redirect("/login");
 	}
 });
@@ -259,9 +236,7 @@ app.get('/mylogs', (req, res) =>{
 	}
 })
 
-
 app.get('/register', (req, res) => {
-	console.log(i18n.getLocale());
 	res.render('register', {lang: i18n.getLocale()});
 });
 
@@ -269,25 +244,18 @@ app.post('/register', (req, res) => {
 	const newUser = new User({
 		username: req.body.username,
 		email: req.body.email.toLowerCase(),
-		password: req.body.password,
 		numberOfLogs: 0
 	});
 
-	User.findOne({ email: new RegExp(req.body.email, "i") }, function(err, user) {
-		if (user){
-			res.render('register', {message : "Oh, oh, looks like an account already exists with this email"});
-			return;
-		}
+	User.register(newUser, req.body.password, function(err, account) {
+        if (err) {
+            return res.render('register', { account : account });
+        }
 
-		newUser.save(function(err) {
-			req.logIn(newUser, function(err) {
-				console.log("trying to print the session" + req.session);
-				req.session.save(function(){
-					res.redirect('/addlog');
-				});
-			});
-		});
-	});
+        passport.authenticate('local')(req, res, function () {
+          res.redirect('/addlog');
+        });
+    });
 });
 
 app.get('/login', (req, res) =>{
@@ -295,26 +263,30 @@ app.get('/login', (req, res) =>{
 });
 
 
-app.post('/login', (req, res, next) => {
-	passport.authenticate("local", function(err, user, info) {
-			if (err) { next(err); }
-			if (!user) {
-				return res.render('login', { message: info.message });
-			} 
-			req.logIn(user, function(err) {
-				if (err) { return next(err); }
-				return res.redirect('/addlog' );
-				});
-
-		})(req, res, next);
-	}
-);
+app.post('/login', function(req, res, next) {
+	passport.authenticate('local', function(err, user, info) {
+	if (err) { return next(err) }
+    if (!user) {
+		return res.render('login', { message: info.message })
+    }
+    req.logIn(user, function(err) {
+		if (err) { return next(err); }
+		return res.redirect('/addlog');
+    });
+  })(req, res, next);
+});
 
 app.get('/logout', (req, res) =>{
-	// req.logout();
-	// res.redirect('/');
+	console.log('req.user ' + req.user);
 	req.session.destroy(function (err) {
-    res.redirect('/'); //Inside a callback… bulletproof!
+		if (!err){
+			req.logout();
+    		res.redirect('/');
+		}else{
+			console.log(err);
+			res.redirect('/');
+		}
+
   });
 });
 
@@ -326,6 +298,30 @@ app.get('/profile', (req, res) =>{
 	}
 });
 
+app.get('/changeusername', (req, res) =>{
+	if (req.user){
+		res.render("changeusername", {username: req.user.username, lang: i18n.getLocale()});
+	}else{
+		res.redirect('login');
+	}
+});
+
+app.post('/changeusername', (req, res) =>{
+	req.body.username = req.user.username;
+	passport.authenticate('local')(req, res, function (err, user, info) {
+		console.log('in pasp authenticate');
+		User.findOne({username: req.user.username}, function(err, user){
+			user.username = req.body.newUsername;
+			req.user.username = req.body.newUsername;
+			console.log('req.user' + req.user);
+			user.save(function(err) {
+				console.log('saved new username');	
+			});
+		})
+        res.redirect('/addlog');
+    });
+});
+
 app.get('/change', (req, res) =>{
 	if (req.user){
 		res.render("change", {username: req.user.username});
@@ -334,41 +330,23 @@ app.get('/change', (req, res) =>{
 	}
 });
 
-app.post('/change', (req, res, next) =>{
-	console.log('inside /change');
-	console.log('req.body.username is ' + req.body.username);
-
-	passport.authenticate( "local", function(err, user, info) {
-	console.log('user is ' + user.username);
-		if (err) { next(err); }
-		if (!user) {
-			return res.render('login', { message: info.message });
-		} 
-		req.logIn(user, function(err) {
-			if (err) { return next(err); }
-			//old password matches, so
-			console.log('users email is' + user.email);
-			User.findOne({ email: new RegExp(user.email, "i") }, function(err, user) {
-
-				console.log('checking for null'+user);
-				if(err) { return done(err); }
-
-				user.username = req.body.username;
-				user.password = req.body.newpassword;
-
-				user.save(function(err) {
-					console.log('saving the user');
-					req.logIn(user, function(err) {
-						console.log('inside logIn function');
-						//done(err, user);
-					});
-				});
+app.post('/change', (req, res) =>{
+	User.findOne({ username: req.user.username}, function(err, usr){
+		if (err){
+			console.log(err);
+		}else{
+			usr.setPassword(req.body.newpassword, function(error){
+				if (error){
+					console.log(error);
+				}else{
+					console.log('inside setPAssword');
+					usr.save();
+	                console.log('outside of save');
+	                return res.redirect('/profile');
+				}
 			});
-			//return res.redirect('/explore' );
-		});
-	})(req, res, next);
-	//res.redirect('/explore' );
-	//do more stuff here
+		}		
+	});	
 });
 
 app.get('/forgot', (req, res) =>{
@@ -465,7 +443,7 @@ app.post('/reset/:token', function(req, res) {
 			user.resetPasswordExpires = undefined;
 
 			user.save(function(err) {
-				console.log('saving the user');
+				console.log('saving the userr');
 				req.logIn(user, function(err) {
 					console.log('inside logIn function');
 					done(err, user);
@@ -502,7 +480,7 @@ app.post('/reset/:token', function(req, res) {
 app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'], failureRedirect: '/', successRedirect: '/addlog'	}));
 
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
-    res.redirect('/addlog');
+    // res.redirect('/addlog');
     console.log('inside (/auth/facebook/callback');
 });
 
@@ -542,38 +520,19 @@ app.get('/terms', (req, res) =>{
 	res.render('terms');
 });
 
-// app.get('/usercheck', function(req, res) {
-// 	console.log("hi im in get usercheck");
-// 	console.log('username value from form is ' + req.query.username);
-//     User.findOne({username: req.query.username}, function(err, user){
-//         if(err) {
-//           console.log(err);
-//         }
-//         var message;
-//         if(user) {
-//             message = "user exists";
-//         } else {
-//             message= "user doesn't exist";
-//         }
-//         console.log("message is "+ message);
-//         res.json({message: message});
-//     });
-// });
-
-
 app.get('/usercheck', function(req, res) {
-	console.log('hi its calling usercheck get');
-    User.findOne({username: req.query.username}, function(err, user){
+    User.findOne({username: req.query.username.toLowerCase() || req.query.newUsername.toLowerCase()}, function(err, user){
+    	console.log('usercheck for ' + req.query.username);
         if(err) {
           console.log(err);
         }
         var message;
         if(user) {
             message = "user exists";
-            res.send(200);
+            res.send(404);
         } else {
             message= "user doesn't exist";
-            res.send(404);
+            res.send(202);
         }
     });
 });

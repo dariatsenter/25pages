@@ -1,3 +1,16 @@
+<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
+<style>
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: #EDF0F1 url(images/ui-bg_glass_75_e6e6e6_1x400.png) 50% 50% repeat-x;
+}
+.ui-widget-header {
+    background: #8ab094 url(images/ui-bg_highlight-soft_75_cccccc_1x100.png) 50% 50% repeat-x;
+}
+.ui-widget {
+    font-family: "Baskerville";
+    font-size: 1.1em;
+}
+</style>
 
 <div id="addLog">
 	<h1>{{{__ "addLog"}}}</h1>
@@ -8,7 +21,7 @@
 			<input type="number" placeholder="{{{__ 'numberOfPages'}}}" name="number" min="1" max="1000">
 			<input type="text" placeholder="{{{__ 'title'}}}" name="title" value="">
 			<input type="text" placeholder="{{{__ 'author'}}}" name="author" value="">
-			<input type="date" placeholder="{{{__ 'date'}}}" id="datePicker" name="date" value="">
+			<input type="text" placeholder="{{{__ 'date'}}}" id="datePicker" name="date" value="">
 			<textarea id="comments" type="text" placeholder="{{{__ 'comments'}}}" name="comments"></textarea>
 			<div>
 			<input class="w3-radio" type="radio" name="access" checked>
@@ -23,9 +36,9 @@
 <!-- <script>
 	document.getElementById('datePicker').value = new Date();
 </script> -->
-<link href="https://code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css" rel="stylesheet" type="text/css">
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
 
 <script>
   $( function() {

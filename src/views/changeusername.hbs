@@ -1,0 +1,28 @@
+<div class="center-container">
+	<div class="auth">
+		<h2>Change username</h2>
+		<form method="POST" id="changeUsernameForm" data-parsley-validate="true">
+			<input type="text" name="username" id="newUsername" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" data-parsley-remote data-parsley-remote-message='{{{__ "usernameExists"}}}' data-parsley-remote-options='{ "type": "GET" }' data-parsley-remote-validator="validateChangeUsername" value="{{username}}">
+			<input type="password" placeholder="enter your password" data-parsley-trigger="keyup" id="password" name="password" >
+			<input type="submit" value="Save changes">
+		</form>
+	</div>
+</div>
+
+<script  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+<script src="https://parsleyjs.org/dist/parsley.js"></script>
+<script src="i18n/{{lang}}.js"></script>
+
+<script>
+	//validating that email doesnt yet exist
+	console.log("newusername is" + $('#newUsername').val().toLowerCase());
+	window.Parsley.addAsyncValidator('validateChangeUsername', function (xhr, statusText) {
+    return 202 === xhr.status;
+  },'/usercheck?'+$('#newUsername').val().toLowerCase());
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('changeUsernameForm').parsley();
+  });
+</script>
