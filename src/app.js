@@ -70,7 +70,8 @@ passport.use(new FacebookStrategy({
 			if (err) { return done(err); }
 			if (!user){
 				const newUser = new User({
-					username: profile.id,
+					username: profile.emails[0].value.split('@')[0],
+					facebookId: profile.id,
 					email: profile.emails[0].value,
 					numberOfLogs: 0
 				});
