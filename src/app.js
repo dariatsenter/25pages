@@ -66,10 +66,10 @@ passport.use(new FacebookStrategy({
 		profileFields: ['id', 'emails']
 	},
 	function(accessToken, refreshToken, profile, done) {
-		User.findOne({ username : profile.id}, function(err, user) {
+		User.findOne({ username : profile.emails[0].value.split('@')[0]}, function(err, user) {
 			if (err) { 
-				// return done(err);
-				return res.render('register', { exists: "Looks like you're already in the system" });
+				return done(err);
+				
 			}
 			if (!user){
 				const newUser = new User({
