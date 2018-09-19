@@ -69,7 +69,7 @@ passport.use(new FacebookStrategy({
 		User.findOne({ username : profile.emails[0].value.split('@')[0]}, function(err, user) {
 			if (err) { 
 				return done(err);
-				
+
 			}
 			if (!user){
 				const newUser = new User({
@@ -400,7 +400,6 @@ app.post('/forgot', function(req, res, next) {
 		}
 	});
 		const mailOptions = {
-
 			to: user.email,
 			from: '25pagesuser@gmail.com',
 			subject: '25pages.club Password Reset',
@@ -410,7 +409,11 @@ app.post('/forgot', function(req, res, next) {
 			'If you did not request this, please ignore this email and your password will remain unchanged.\n'
 		};
 		smtpTransport.sendMail(mailOptions, function(err) {
-			req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+			if (!err){
+				req.flash('info', 'An e-mail has been sent to ' + user.email + ' with further instructions.');
+			} else{
+				req.flash('info', 'Something went wrong on the server, try later.');
+			}
 			done(err, 'done');
 		});
 	}
