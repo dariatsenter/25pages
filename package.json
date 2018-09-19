@@ -57,6 +57,7 @@
     "passport-vkontakte": "^0.3.2",
     "popper": "^1.0.1",
     "popper.js": "^1.14.3",
-    "request": "^2.87.0"
+    "request": "^2.87.0",
+    "smtp": "^0.1.4"
   }
 }

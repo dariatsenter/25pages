@@ -394,6 +394,9 @@ app.post('/forgot', function(req, res, next) {
 	function(token, user, done) {
 		const smtpTransport = nodemailer.createTransport({
 			service: 'Gmail',
+			type: "SMTP",
+			host: "smtp.gmail.com",
+			secure: true,
 			auth: {
 			user: '25pagesuser@gmail.com',
 			pass: '25pagesclub!'
