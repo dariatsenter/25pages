@@ -309,11 +309,12 @@ app.get('/changeusername', (req, res) =>{
 });
 
 app.post('/changeusername', (req, res) =>{
-	req.body.username = req.user.username;
+	// req.body.username = req.user.username;
 	// passport.authenticate('local')(req, res, function (err, user, info) {
 		User.findOne({username: req.user.username}, function(err, user){
-			user.username = req.body.newUsername;
-			req.user.username = req.body.newUsername;
+			user.username = req.body.username;
+			req.user.username = req.body.username;
+			// console.log('umm' + user);
 			user.save(function(err) {
 				if (err){
 					console.log(err);
