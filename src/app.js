@@ -310,18 +310,22 @@ app.get('/changeusername', (req, res) =>{
 
 app.post('/changeusername', (req, res) =>{
 	req.body.username = req.user.username;
-	passport.authenticate('local')(req, res, function (err, user, info) {
-		console.log('in pasp authenticate');
+	// passport.authenticate('local')(req, res, function (err, user, info) {
 		User.findOne({username: req.user.username}, function(err, user){
 			user.username = req.body.newUsername;
 			req.user.username = req.body.newUsername;
-			console.log('req.user' + req.user);
 			user.save(function(err) {
-				console.log('saved new username');	
+				if (err){
+					console.log(err);
+					res.redirect('/');
+				}else{
+					console.log('saved new username');
+				}
+					
 			});
 		})
         res.redirect('/addlog');
-    });
+    // });
 });
 
 app.get('/change', (req, res) =>{

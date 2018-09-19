@@ -4,7 +4,7 @@
 	<div class="auth">
 		<h2>{{username}}</h2>
 		<form method="POST" id="changeForm" data-parsley-validate="true">
-			<input type="password" placeholder="enter old password" data-parsley-trigger="keyup" id="password" name="password" >
+			<!-- <input type="password" placeholder="enter old password" data-parsley-trigger="keyup" id="password" name="password" > -->
 			<input type="password" placeholder="enter new password" data-parsley-validation-threshold="2" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" id="newpassword" name="newpassword" >
 		    <input type="password" placeholder="verify new password" data-parsley-validation-threshold="2" data-parsley-equalto="#newpassword" data-parsley-trigger="keyup" name="password-verify" id="password-verify"/>
 			<input type="submit" value="Save changes">

@@ -3,7 +3,7 @@
 		<h2>Change username</h2>
 		<form method="POST" id="changeUsernameForm" data-parsley-validate="true">
 			<input type="text" name="username" id="newUsername" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" data-parsley-remote data-parsley-remote-message='{{{__ "usernameExists"}}}' data-parsley-remote-options='{ "type": "GET" }' data-parsley-remote-validator="validateChangeUsername" value="{{username}}">
-			<input type="password" placeholder="enter your password" data-parsley-trigger="keyup" id="password" name="password" >
+			<!-- <input type="password" placeholder="enter your password" data-parsley-trigger="keyup" id="password" name="password" > -->
 			<input type="submit" value="Save changes">
 		</form>
 	</div>
