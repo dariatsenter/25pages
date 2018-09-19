@@ -479,10 +479,10 @@ app.post('/reset/:token', function(req, res) {
 	});
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'], failureRedirect: '/', successRedirect: '/addlog'	}));
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'], failureRedirect: '/', successRedirect: '/addlog'}));
 
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
-    // res.redirect('/addlog');
+    res.redirect('/addlog');
     console.log('inside (/auth/facebook/callback');
 });
 
@@ -530,10 +530,10 @@ app.get('/usercheck', function(req, res) {
         var message;
         if(user) {
             message = "user exists";
-            res.send(404);
+            res.sendStatus(404);
         } else {
             message= "user doesn't exist";
-            res.send(202);
+            res.sendStatus(202);
         }
     });
 });
