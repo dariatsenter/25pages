@@ -67,7 +67,10 @@ passport.use(new FacebookStrategy({
 	},
 	function(accessToken, refreshToken, profile, done) {
 		User.findOne({ username : profile.id}, function(err, user) {
-			if (err) { return done(err); }
+			if (err) { 
+				// return done(err);
+				return res.render('register', { exists: "Looks like you're already in the system" });
+			}
 			if (!user){
 				const newUser = new User({
 					username: profile.emails[0].value.split('@')[0],
@@ -270,7 +273,7 @@ app.post('/login', function(req, res, next) {
 	passport.authenticate('local', function(err, user, info) {
 	if (err) { return next(err) }
     if (!user) {
-		return res.render('login', { message: info.message })
+		return res.render('login', { message: info.message });
     }
     req.logIn(user, function(err) {
 		if (err) { return next(err); }

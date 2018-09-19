@@ -6,6 +6,14 @@
 	</div>
 {{/if}}
 
+{{#if exists}}
+<div class="error">
+	<div class="error-text">
+		{{exists}}
+	</div>
+</div>
+{{/if}}
+
 <div class="center-container">
 	<div class="auth">
 		<h2>{{{__ "signUp"}}}</h2>
