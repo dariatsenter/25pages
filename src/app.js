@@ -10,6 +10,7 @@ const app = express();
 const path = require('path');
 app.use(express.static(path.join(__dirname, 'public')));
 const nodemailer = require('nodemailer');
+const mailgunTransport = require('nodemailer-mailgun-transport');
 const cookieParser = require('cookie-parser');
 
 const bodyParser = require('body-parser');
@@ -22,7 +23,14 @@ const i18n = require('i18n');
 
 hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
-
+// 'forgot password' configuration
+const mailgunOptions = {
+  auth: {
+    api_key: process.env.MAILGUN_ACTIVE_API_KEY,
+    domain: process.env.MAILGUN_DOMAIN,
+  }
+}
+const transport = mailgunTransport(mailgunOptions);
 
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
@@ -73,7 +81,7 @@ passport.use(new FacebookStrategy({
 			}
 			if (!user){
 				const newUser = new User({
-					username: profile.emails[0].value.split('@')[0],
+					username: profile.id,
 					facebookId: profile.id,
 					email: profile.emails[0].value,
 					numberOfLogs: 0
@@ -392,19 +400,10 @@ app.post('/forgot', function(req, res, next) {
 	},
     //now send an email
 	function(token, user, done) {
-		const smtpTransport = nodemailer.createTransport({
-			service: 'Gmail',
-			type: "SMTP",
-			host: "smtp.gmail.com",
-			secure: true,
-			auth: {
-			user: '25pagesuser@gmail.com',
-			pass: '25pagesclub!'
-		}
-	});
+		const smtpTransport = nodemailer.createTransport(transport);
 		const mailOptions = {
 			to: user.email,
-			from: '25pagesuser@gmail.com',
+			from: 'support@25pages.club',
 			subject: '25pages.club Password Reset',
 			text: 'You are receiving this because you (or someone else) have requested the reset of the password for your 25pages account.\n\n' +
 			'Please click on the following link, or paste this into your browser to complete the process:\n\n' +
