@@ -1,5 +1,6 @@
 html, body {
   margin: 0;
+  min-height: 100%;
   height: 100%;
   width: 100%;
   background-color: #fafafc;
@@ -28,8 +29,6 @@ h3 {
 form {
   text-align: center;
 }
-
-
 
 input:not([type="radio"]):not(#searchChange), textarea {
   margin: auto;
@@ -65,9 +64,11 @@ nav {
   color: #8ab094;
 }
 
-footer {
+
+footer{
   position: fixed;
   bottom: 0;
+  height: 50px;
   width: 100%;
   overflow: hidden;
   color: white;
@@ -212,6 +213,7 @@ textarea.parsley-error, .parsley-error {
   margin-bottom: 50px;
   text-align: center;
   padding: 10px;
+  padding-bottom: 0;
   width: 100%;
   height: auto;
   background-color: #fff;

@@ -25,6 +25,7 @@ hbs.registerHelper('dateFormat', require('handlebars-dateformat'));
 
 // 'forgot password' configuration
 const mailgunOptions = {
+	service: 'Mailgun',
   auth: {
     api_key: process.env.MAILGUN_ACTIVE_API_KEY,
     domain: process.env.MAILGUN_DOMAIN,
@@ -400,6 +401,7 @@ app.post('/forgot', function(req, res, next) {
 	},
     //now send an email
 	function(token, user, done) {
+		console.log('in function to send email');
 		const smtpTransport = nodemailer.createTransport(transport);
 		const mailOptions = {
 			to: user.email,
@@ -435,6 +437,7 @@ app.get('/reset/:token', function(req, res) {
 			req.flash('error', 'Password reset token is valid or has expired.');
 			return res.redirect('/forgot');
 		}
+		//render change password page
 		res.render('change', {
 		username: user.username
 		});
@@ -453,17 +456,20 @@ app.post('/reset/:token', function(req, res) {
 				req.flash('error', 'Password reset token is invalid or has expired.');
 				return res.redirect('back');
 			}
-
-			user.password = req.body.password;
+			//HERE!
+			// user.password = req.body.password;
 			user.resetPasswordToken = undefined;
 			user.resetPasswordExpires = undefined;
 
-			user.save(function(err) {
-				console.log('saving the userr');
-				req.logIn(user, function(err) {
-					console.log('inside logIn function');
-					done(err, user);
-				});
+			user.setPassword(req.body.newpassword, function(error){
+				if (error){
+					console.log(error);
+				}else{
+					console.log('inside setPassword after /forgot');
+					user.save();
+	                console.log('outside of save');
+	                return res.redirect('/profile');
+				}
 			});
 		});
 	},
