@@ -1,6 +1,5 @@
 // Daria Tsenter
 //Started 4/3/18
-
 // SETTING UP
 require('./db');
 require('dotenv').config();
@@ -75,6 +74,11 @@ passport.use(new FacebookStrategy({
 		profileFields: ['id', 'emails']
 	},
 	function(accessToken, refreshToken, profile, done) {
+		// in case email is not grabbed
+		if (profile.emails === undefined) {
+        	done('email-required')
+        	return;
+    	}
 		//check by email if one exists
 		User.findOne({ email : profile.emails[0].value}, function(err, user) {
 			if (err) { 
@@ -425,8 +429,7 @@ app.post('/forgot', function(req, res, next) {
 	if (err){
 		return next(err);	
 	} 
-	//res.redirect('/forgot', {message: "And email has been sent with further instructions"});
-		res.render("forgot", {message: "And email has been sent with further instructions"});
+		res.render("success", {message: "And email has been sent with further instructions"});
 	});
 	//res.render("forgot", {message: "And email has been sent with further instructions"});
 });
@@ -448,16 +451,13 @@ app.post('/reset/:token', function(req, res) {
 	async.waterfall([
 
 	function(done) {
-		console.log('anuone here?');
 		//find a user with the following resetPasswordToken and reset password expiration date
 		User.findOne({ resetPasswordToken: req.params.token, resetPasswordExpires: { $gt: Date.now() } }, function(err, user) {
 			if (!user) {
-				console.log('didnt find a user with such password reset token');
 				req.flash('error', 'Password reset token is invalid or has expired.');
 				return res.redirect('back');
 			}
 			//HERE!
-			// user.password = req.body.password;
 			user.resetPasswordToken = undefined;
 			user.resetPasswordExpires = undefined;
 
@@ -474,24 +474,20 @@ app.post('/reset/:token', function(req, res) {
 		});
 	},
 	function(user, done) {
-		console.log('supposed to be sending a confirmation email now');
-		const smtpTransport = nodemailer.createTransport({
-		service: 'Gmail',
-		auth: {
-			user: '25pagesuser@gmail.com',
-			pass: '25pagesclub'
-		}
-		});
+		const smtpTransport = nodemailer.createTransport(transport);
 		const mailOptions = {
-		to: user.email,
-		from: '25pagesuser@gmail.com',
-		subject: 'Your password has been changed',
-		text: 'Hello,\n\n' +
-		'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
+			to: user.email,
+			from: 'support@25pages.club',
+			subject: 'Your password has been changed',
+			text: 'This is a confirmation that the password for your account ' + user.email + ' has just been changed.\n'
 		};
 		smtpTransport.sendMail(mailOptions, function(err) {
-		req.flash('success', 'Success! Your password has been changed.');
-		done(err);
+			if (!err){
+				req.flash('success', 'Your password has been changed.');
+			} else{
+				req.flash('info', 'Something went wrong on the server, try later.');
+			}
+			done(err, 'done');
 		});
 	}
 	], function(err) {
@@ -499,12 +495,24 @@ app.post('/reset/:token', function(req, res) {
 	});
 });
 
-app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'], failureRedirect: '/', successRedirect: '/addlog'}));
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'], authType: 'rerequest', failureRedirect: '/', successRedirect: '/addlog'}));
 
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), function (req, res) {
-    res.redirect('/addlog');
-    console.log('inside (/auth/facebook/callback');
+app.get('/auth/facebook/callback', passport.authenticate('facebook', function (err, user, info) {
+        if (err) {
+            if (err == 'email-required') res.redirect('/auth/facebook/rerequest');
+            // check for other kinds of errors and show proper messages
+            return;
+        }
+        res.redirect('/addlog');
+        // do the rest of the thing
 });
+
+app.get('/auth/facebook/rerequest',
+    passport.authenticate('facebook', {
+        scope: ['email'],
+        authType: 'rerequest' // this is important
+    }
+));
 
 app.get('/feedback', (req, res)=>{
 	res.render('feedback');
