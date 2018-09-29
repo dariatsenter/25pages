@@ -423,6 +423,7 @@ app.post('/forgot', function(req, res, next) {
 				req.flash('info', 'Something went wrong on the server, try later.');
 			}
 			done(err, 'done');
+			smtpTransport.close();
 		});
 	}
 	], function(err) {
@@ -487,6 +488,7 @@ app.post('/reset/:token', function(req, res) {
 			} else{
 				req.flash('info', 'Something went wrong on the server, try later.');
 			}
+			smtpTransport.close();
 			done(err, 'done');
 		});
 	}
@@ -505,7 +507,7 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', function (e
         }
         res.redirect('/addlog');
         // do the rest of the thing
-});
+}));
 
 app.get('/auth/facebook/rerequest',
     passport.authenticate('facebook', {
@@ -519,27 +521,21 @@ app.get('/feedback', (req, res)=>{
 });
 
 app.post('/feedback', (req, res) =>{
-	const smtpTransport = nodemailer.createTransport({
-		service: "Gmail",
-		auth: {
-			user: "25pagesuser@gmail.com",
-			pass: "25pagesclub"
-		}});
-
-		smtpTransport.sendMail({
-			from: req.body.name + " <25pagesuser@gmail.com>",
-			to: "Admin <25pagesclub@gmail.com>",
+	const smtpTransport = nodemailer.createTransport(transport);
+		const mailOptions = {
+			to: "25pagesclub@gmail.com",
+			from: 'support@25pages.club',
 			subject: req.body.subject,
-			html: req.body.message + req.body.email}, function(error, response){ //callback
-				if(error){
-					console.log(error);
-				}else{
-					console.log("Message sent: " + req.body.message);
-					res.render('feedback', {status: "Thank you for your feedback!"});
-				}
-
-				smtpTransport.close();
-			});
+			text: 'This is from ' + req.body.name + '\n Message ' + req.body.message + '\n Email '+ req.body.email
+		};
+		smtpTransport.sendMail(mailOptions, function(err) {
+			if (!err){
+				res.render('feedback', {status: "Thank you for your feedback!"});
+			} else{
+				req.flash('info', 'Something went wrong on the server, try later.');
+			}
+			smtpTransport.close();			
+		});
 });
 
 app.get('/privacy', (req, res) =>{

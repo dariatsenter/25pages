@@ -1,8 +1,16 @@
 {{#if status}}
-<h1>{{status}}</h1>
-{{else}}
 <div class="center-container" style="margin-top:2%">
+<div class="auth feedback">
+<h1>{{status}}</h1>
+</div>
+</div>
+{{else}}
+
+
+<div class="center-container" style="margin-top:2%">
+
   <div class="auth feedback">
+
     <h1> {{{__ "helpMakeBetter"}}}</h1>
     <form method="POST" action="/feedback" id="feedbackForm">
       <div class="inline-input">
