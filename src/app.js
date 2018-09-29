@@ -529,11 +529,20 @@ app.post('/feedback', (req, res) =>{
 });
 
 app.get('/privacy', (req, res) =>{
-	res.render('privacy');
+	if (i18n.getLocale() === "en"){
+		res.render('privacy');		
+	}else{
+		res.render('privacyrus');
+	}
+
 });
 
 app.get('/terms', (req, res) =>{
-	res.render('terms');
+	if (i18n.getLocale() === "en"){
+		res.render('terms');		
+	}else{
+		res.render('termsrus');
+	}
 });
 
 app.get('/usercheck', function(req, res) {
