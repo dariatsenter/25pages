@@ -499,15 +499,18 @@ app.post('/reset/:token', function(req, res) {
 
 app.get('/auth/facebook', passport.authenticate('facebook', { scope : ['email'], authType: 'rerequest', failureRedirect: '/', successRedirect: '/addlog'}));
 
-app.get('/auth/facebook/callback', passport.authenticate('facebook', function (err, user, info) {
+app.get('/auth/facebook/callback', function(req, res, next) {
+	passport.authenticate('facebook', function (err, user, info) {
         if (err) {
             if (err == 'email-required') res.redirect('/auth/facebook/rerequest');
-            // check for other kinds of errors and show proper messages
+            //for any other type of error
+            res.redirect('/');
             return;
         }
         res.redirect('/addlog');
         // do the rest of the thing
-}));
+})(req, res, next)
+});
 
 app.get('/auth/facebook/rerequest',
     passport.authenticate('facebook', {
