@@ -1,33 +1,33 @@
+
+<div class="col-md-6 center_div text-center my-3">
 {{#if status}}
-<div class="center-container" style="margin-top:2%">
-<div class="auth feedback">
-<h1>{{status}}</h1>
-</div>
-</div>
+  <h1>{{status}}</h1>
 {{else}}
-
-
-<div class="center-container" style="margin-top:2%">
-
-  <div class="auth feedback">
 
     <h1> {{{__ "helpMakeBetter"}}}</h1>
     <form method="POST" action="/feedback" id="feedbackForm">
-      <div class="inline-input">
-      <input type="text" style="width:44%;display:inline-block;margin-right:6px" placeholder="{{{__ 'yourName'}}}" name="name" >
-      <input type="text" style="width:44%;display:inline-block;margin-left:6px" placeholder="{{{__ 'yourEmail'}}}" name="email" >
+      <div class="form-row">
+        <div class="form-group col-md-6">
+          <input type="text" placeholder="{{{__ 'yourName'}}}" name="name" class="form-control text-center">
       </div>
-      <input type="text" placeholder="{{{__ 'subject'}}}" name="subject">
-
-      <textarea name="message" rows="10" cols="30" placeholder="{{{__ 'bugs'}}}"></textarea>
-
-      <input type="submit" value="{{{__ 'submitButton'}}}"></input>
+      <div class="form-group col-md-6">
+        <input type="text" placeholder="{{{__ 'yourEmail'}}}" name="email" class="form-control text-center">
+      </div>
+    </div>
+      <div class="form-group">
+        <input type="text" placeholder="{{{__ 'subject'}}}" name="subject" class="form-control text-center">
+      </div>
+      <div class="form-group">
+        <textarea name="message" rows="10" cols="30" placeholder="{{{__ 'bugs'}}}" class="form-control text-center"></textarea>
+      </div>
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary btn-block login">{{{__ 'submitButton'}}}</button>
+      </div>
     </form>
 
     <form action="https://www.patreon.com/dashatsenter">
-        <input type="submit" value="{{{__ 'patreonButton'}}}"/>
+        <button type="submit" class="btn btn-primary btn-block patreon">{{{__ 'patreonButton'}}}</button>
     </form>
-  </div>
-</div>
 
 {{/if}}
+</div>

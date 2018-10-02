@@ -55,6 +55,8 @@ app.use(session({
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use('/dist', express.static(path.join(__dirname,'../node_modules/bootstrap/dist')));
+
 app.use(flash());
 
 const Log = mongoose.model('Log');

@@ -1,15 +1,15 @@
-<div id="logsHistory">
+<div class="col-md-11 mx-5 my-5 bg-white rounded py-3">
     {{#if user}}
     <h1>@{{user.username}}</h1>
     {{/if}}
-    <table id="history" align="center">
+    <table id="history" class="table table-hover">
         <thead>
         <tr>
-            <th>Pages</th>
-            <th>Title</th>
-            <th>Author</th>
-            <th>Date</th>
-            <th>Comments</th>
+            <th scope="col">Pages</th>
+            <th scope="col">Title</th>
+            <th scope="col">Author</th>
+            <th scope="col">Date</th>
+            <th scope="col">Comments</th>
         </tr>
         </thead>
     <tbody>

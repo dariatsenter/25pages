@@ -1,8 +1,7 @@
-<div class="center-container">
-	<div class="auth">
-		<p>{{{__ "username"}}}: {{username}}<a href="/changeusername"><img src="img/icons8-edit-50.png" alt="edit username" style="width:1em;height:1em;padding-left:1em;padding-top:0.5em;"></a></p>
+<div class="col-md-2 center_div text-center mt-5 bg-white rounded py-3">
+		<p>{{{__ "username"}}}: {{username}}<a href="/changeusername"><img src="img/icons8-edit-50.png" alt="edit username" class=
+		"ml-2" style="width:1em;height:1em;"></a></p>
 		<p>{{email}}</p>
-		<p><a href="/change"> {{{__ "changePassword"}}}</a><br></p>
-		<a href="/logout" id="logOut"> {{{__ "logOut"}}}</a><br>
+		<p><small><a href="/change" class="text-secondary"> {{{__ "changePassword"}}}</a></small><br></p>
+		<button class="btn btn-primary btn-block logout"><a href="/logout" class="link-unstyled"> {{{__ "logOut"}}}</a></button><br>
 	</div>
-</div>

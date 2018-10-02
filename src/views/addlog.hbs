@@ -11,25 +11,31 @@
     font-size: 1.1em;
 }
 </style>
-
-<div id="addLog">
+<div class="col-md-3 center_div text-center mt-5 bg-white rounded py-4 px-3">
 	<h1>{{{__ "addLog"}}}</h1>
 	{{#if message}}
 		<div class="error">{{ message }}</div>
 	{{/if}}
 	<form method="POST" action="addlog">
-			<input type="number" placeholder="{{{__ 'numberOfPages'}}}" name="number" min="1" max="1000">
-			<input type="text" placeholder="{{{__ 'title'}}}" name="title" value="">
-			<input type="text" placeholder="{{{__ 'author'}}}" name="author" value="">
-			<input type="text" placeholder="{{{__ 'date'}}}" id="datePicker" name="date" value="">
-			<textarea id="comments" type="text" placeholder="{{{__ 'comments'}}}" name="comments"></textarea>
-			<div>
-			<input class="w3-radio" type="radio" name="access" checked value="public">
-				<label>{{{__ 'public'}}}</label>
-				<input class="w3-radio" type="radio" name="access" value="private">
-				<label>{{{__ 'private'}}}</label>
-			</div>
-		<input type="submit" value="{{{__ 'add'}}}">
+		<div class="form-group">
+			<input type="number" placeholder="{{{__ 'numberOfPages'}}}" name="number" min="1" max="1000" class="form-control text-center">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="{{{__ 'title'}}}" name="title" value="" class="form-control text-center">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="{{{__ 'author'}}}" name="author" value="" class="form-control text-center">
+		</div>
+		<div class="form-group">
+			<input type="text" placeholder="{{{__ 'date'}}}" id="datePicker" name="date" value="" class="form-control text-center">
+		</div>
+		<div class="form-group">
+			<textarea id="comments" type="text" placeholder="{{{__ 'comments'}}}" name="comments" class="form-control text-center"></textarea>
+		</div>
+				<label class="radio-inline mx-2"><input class="w3-radio" type="radio" name="access" checked value="public" class="form-control text-center"> {{{__ 'public'}}}</label>
+				<label class="radio-inline mx-2"><input class="w3-radio" type="radio" name="access" value="private" class="form-control text-center"> {{{__ 'private'}}}</label>
+
+			<button type="submit" class="btn btn-primary btn-block login">{{{__ 'add'}}}</button>
 	</form>
 </div>	
 

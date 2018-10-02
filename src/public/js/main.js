@@ -13,6 +13,7 @@ function handleMain(req){
 				a.appendChild(document.createTextNode("@" + user.username));
 				a.title = user.username;
 				a.href = "/user/" + user.username;
+				a.classList.add('link-unstyled');
 				newCell.appendChild(a);
 				newRow.appendChild(newCell);
 
@@ -64,6 +65,7 @@ function handleSearchResponse(req){
 			a.appendChild(document.createTextNode("@" + user.username));
 			a.title = user.username;
 			a.href = "/user/" + user.username;
+			a.classList.add('link-unstyled');
 			newCell.appendChild(a);
 			newRow.appendChild(newCell);
 

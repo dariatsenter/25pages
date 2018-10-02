@@ -1,22 +1,27 @@
 {{#if message}}
-<div class="error">
-	<div class="error-text">
-		{{message}}
-	</div>
-</div>
-{{/if}}
-
-<div class="center-container">
-	<div class="auth">
-		<h2>{{{__ "login"}}}</h2>
-		<form method="POST" action="login">
-			<input placeholder="{{{__ 'username'}}}" type="text" name="username" value="">
-			<input placeholder="{{{__ 'password'}}}" type="password" name="password" value="">
-			<input value="{{{__ 'loginButton'}}}" type="submit">
-		</form>
-		<div>
-			<a href="/auth/facebook"><img width="105" height="20" src="../img/login-with-facebook.png"></a></a>
+	<div class="error">
+		<div class="error-text">
+			{{message}}
 		</div>
-		<a href="/forgot"><h3>{{{__ "lostPassword"}}}</h3></a>
 	</div>
+{{/if}}
+<div class="col-md-2 center_div text-center mt-5 bg-white rounded py-3 px-4">
+	
+	<h2>{{{__ "login"}}}</h2>
+	<form method="POST" action="login">
+		<div class="form-group">
+			<input placeholder="{{{__ 'username'}}}" type="text" name="username" value="" class="form-control text-center">
+		</div>
+		<div class="form-group">
+			<input placeholder="{{{__ 'password'}}}" type="password" name="password" value="" class="form-control text-center">
+		</div>
+		<div class="form-group">
+			<button type="submit" class="btn btn-primary btn-block login">{{{__ 'loginButton'}}}</button>
+		</div>
+	</form>
+	<div>
+		<a href="/auth/facebook"><img width="105" height="20" src="../img/login-with-facebook.png"></a></a>
+	</div>
+	<small><a href="/forgot" class="text-secondary">{{{__ "lostPassword"}}}</a></small>
 </div>
+

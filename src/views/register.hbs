@@ -14,22 +14,29 @@
 </div>
 {{/if}}
 
-<div class="center-container">
-	<div class="auth">
+<div class="col-md-3 center_div text-center mt-5 bg-white rounded py-3 px-4">
 		<h2>{{{__ "signUp"}}}</h2>
 		<form method="POST" id="regForm" action="register" data-parsley-validate="true">
 
-			<input type="text" placeholder="{{{__ 'username'}}}" id="usernameEntry" name="username" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" data-parsley-remote data-parsley-remote-options='{ "type": "GET" }' data-parsley-remote-validator="validateUsername" data-parsley-remote-message='{{{__ "usernameExists"}}}' value="">
-
-			<input type="email" placeholder="{{{__ 'email'}}}" required data-parsley-customValidation data-parsley-username="" data-parsley-validation-threshold="2" data-parsley-type="email" data-parsley-trigger="keyup" name="email" value="">
-			<input type="password" placeholder="{{{__ 'password'}}}" required data-parsley-validation-threshold="2" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" id="password" name="password" value="">
-			<input type="password" placeholder="{{{__ 'verifyPassword'}}}" required data-parsley-validation-threshold="2" data-parsley-equalto="#password" data-parsley-trigger="keyup" name="password-verify" id="password-verify"/>
-			<input type="submit" value="{{{__ 'register'}}}">
+			<div class="form-group">
+				<input type="text" placeholder="{{{__ 'username'}}}" class="form-control text-center" id="usernameEntry" name="username" required data-parsley-validation-threshold="2" data-parsley-type="alphanum" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" data-parsley-remote data-parsley-remote-options='{ "type": "GET" }' data-parsley-remote-validator="validateUsername" data-parsley-remote-message='{{{__ "usernameExists"}}}' value="">
+			</div>
+			<div class="form-group">
+				<input type="email" placeholder="{{{__ 'email'}}}" class="form-control text-center" required data-parsley-customValidation data-parsley-username="" data-parsley-validation-threshold="2" data-parsley-type="email" data-parsley-trigger="keyup" name="email" value="">
+			</div>
+			<div class="form-group">
+				<input type="password" placeholder="{{{__ 'password'}}}" class="form-control text-center" required data-parsley-validation-threshold="2" data-parsley-length="[6, 100]" data-parsley-trigger="keyup" id="password" name="password" value="">
+			</div>
+			<div class="form-group">
+				<input type="password" placeholder="{{{__ 'verifyPassword'}}}" class="form-control text-center" required data-parsley-validation-threshold="2" data-parsley-equalto="#password" data-parsley-trigger="keyup" name="password-verify" id="password-verify"/>
+			</div>
+			<div class="form-group">
+				<button type="submit" class="btn btn-primary btn-block login">{{{__ 'register'}}}</button>
+			</div>
 		</form>
 
-		<a href="/auth/facebook">{{{__ "continueFacebook"}}}</a>
+		<small><a href="/auth/facebook" class="text-secondary">{{{__ "continueFacebook"}}}</a></small>
 	</div>
-</div>
 
 <script  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
 <script src="https://parsleyjs.org/dist/parsley.js"></script>

@@ -1,0 +1,108 @@
+/*style2.css*/
+
+
+a.nav-link {
+	color: #8ab094;
+}
+
+.vertical-center {
+  min-height: 80%;  /* Fallback for browsers do NOT support vh unit */
+  min-height: 80vh; /* These two lines are counted as one :-)       */
+
+  display: flex;
+  align-items: center;
+}
+
+.center_div {
+    margin: 0 auto;
+    width:80% /* value of your choice which suits your alignment */
+}
+
+.login {
+	color: #8ab094;
+	background-color: #f8f9fa;
+	border-color: #8ab094;
+}
+
+.login:hover {
+	background-color: #8ab094;
+	color: #FFF;
+	border-color: #8ab094;
+}
+
+.logout {
+	color: #B94A48;
+	background-color: #f8f9fa;
+	border-color: #B94A48;
+}
+
+.logout:hover {
+	background-color: #B94A48;
+	color: #FFF;
+	border-color: #B94A48;
+}
+
+.patreon {
+	color: #f96854;
+	background-color: #f8f9fa;
+	border-color: #f96854;
+}
+
+.patreon:hover {
+	background-color: #f96854;
+	color: #FFF;
+	border-color: #f96854;
+}
+
+.link-unstyled, .link-unstyled:link, .link-unstyled:hover {
+  color: inherit;
+  text-decoration: inherit;
+}
+.error {
+  color: #B94A48;
+  background-color: #F2DEDE;
+  padding: 0.5rem;
+/*  height: 7%;*/
+}
+
+.error-text {
+/*  position: relative;
+  top: 50%;
+  transform: translateY(-50%);*/
+  text-align: center;
+}
+
+input.parsley-success,
+select.parsley-success,
+textarea.parsley-success {
+  color: #468847;
+  background-color: #DFF0D8;
+  border: 1px solid #D6E9C6;
+}
+
+input.parsley-error,
+select.parsley-error,
+textarea.parsley-error, .parsley-error {
+  color: #B94A48;
+  background-color: #F2DEDE;
+  border: 1px solid #EED3D7;
+}
+
+.parsley-errors-list {
+  margin: 0px 0 3px;
+  padding: 10px;
+  padding-bottom: 0px;
+  list-style-type: none;
+  font-size: 0.7em;
+  line-height: 0.9em;
+  opacity: 0;
+  transition: all .3s ease-in;
+  -o-transition: all .3s ease-in;
+  -moz-transition: all .3s ease-in;
+  -webkit-transition: all .3s ease-in;
+  text-align: left;
+}
+
+.parsley-errors-list.filled {
+  opacity: 1;
+}

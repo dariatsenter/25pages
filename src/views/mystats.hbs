@@ -1,10 +1,9 @@
-<div class="center-container">
-  <div class="auth">
+<div class="col-md-3 center_div mt-5 bg-white rounded py-3">
     {{#if user}}
-      <h2>@{{user.username}}</h2>
+      <h2 class="text-center">@{{user.username}}</h2>
     {{/if}}
 
-    <table>
+    <table class="table">
         <tbody>
           <tr>
             <td>{{{__ "totalPages"}}}:</td>
@@ -21,4 +20,3 @@
         </tbody>
     </table>
   </div>
-</div>
