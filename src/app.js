@@ -181,11 +181,12 @@ app.get('/api/users', function(req, res) {
 		query["username"] = { "$regex": req.query.username, "$options": "i" };
 	}
 
-	// User.find(query, function(err, users, count){
-	// 	res.json(users.sort(function(a, b) {
- //    		return a.numberOfLogs - b.numberOfLogs;
-	// 	}));
-	// }
+	User.find(query, function(err, users, count){
+		res.json(users.sort((a,b) => (a.numberOfLogs > b.numberOfLogs) ? 1 : ((b.numberOfLogs > a.numberOfLogs) ? -1 : 0));
+		// 	function(a, b) {
+  //   		return a.numberOfLogs - b.numberOfLogs;
+		// }));
+	}
 });
 
 app.get('/user/:username', (req, res) =>{
