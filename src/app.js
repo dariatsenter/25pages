@@ -182,10 +182,11 @@ app.get('/api/users', function(req, res) {
 	}
 
 	User.find(query, function(err, users, count){
-		res.json(users.sort(function(a,b) {return (a.numberOfLogs > b.numberOfLogs) ? 1 : ((b.numberOfLogs > a.numberOfLogs) ? -1 : 0);});
+		// res.json(users.sort(function(a,b) {return (a.numberOfLogs > b.numberOfLogs) ? 1 : ((b.numberOfLogs > a.numberOfLogs) ? -1 : 0);});
 		// 	function(a, b) {
   //   		return a.numberOfLogs - b.numberOfLogs;
 		// }));
+		res.json(users.sort({ numberOfLogs: -1}));
 	}
 });
 
