@@ -183,7 +183,7 @@ app.get('/api/users', function(req, res) {
 
 	User.find(query, function(err, users, count){
 		res.json(users.sort({ numberOfLogs: -1}));
-	}
+	});
 });
 
 app.get('/user/:username', (req, res) =>{
